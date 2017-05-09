@@ -1,0 +1,121 @@
+<template name="tour">
+   <div class="welcomeText">
+     <h4>Welcome,</h4> We are so glad to have you here
+     <br/> Here on Reaction Commerce you can
+     <ul>
+       <li> Customize your store </li>
+       <li> Create new or modify existing products </li>
+       <li> View and manage orders made by customers </li>
+       <li> Manage User accounts and permissions </li>
+       <li> Shop online, place orders and make payment </li>
+     </ul>
+     Click <span class="label label-primary ">Next</span> below let me show you how.
+     <div class="row">
+       {{> progress number = 15}}
+     </div>
+   </div>
+ 
+   <div class="welcomeBuyer">
+     <h4>Welcome,</h4> We are so glad to have you here
+     <br/>
+     <br/>Here you can
+     <ul>
+       <li> Purchase/Order for your products </li>
+       <li> Modify your profile </li>
+       <li> Make online payments for your orders </li>
+     </ul>
+     Click NEXT below let me show you how.
+     <div class="row">
+       {{> progress number = 25}}
+     </div>
+   </div>
+ 
+   <div class="aboutDashboard">
+     <p>
+       <ul>
+         <li> Click on the User Icon Above</li>
+         <li> Select Dashboard from the<br/>
+            dropdown that appears</li>
+       </ul>
+       <br/>
+       <img src="resources/toDashboard.png" width=60% /> <br>
+       Each of the tools on the <br/>
+       Dashboard can be used to <br/>
+       customize your Store
+     </p>
+     <div class="row">
+       {{> progress number = 30}}
+     </div>
+   </div>
+ 
+   <div class="product">
+     To add a new Product to your store,
+     <br/> Click on the plus button by the right
+     <br/> then Click on Add Product
+     <br/>
+     <div class="row">
+       {{> progress number = 60}}
+     </div>
+   </div>
+ 
+   <div class="profileOrdersAccounts">
+     On the Dropdown from the user <br/>
+     icon above, you can access:
+     <br/>
+     <ol>
+       <li> Order: Manage client orders </li>
+       <li> Accounts: Manage User accounts </li>
+       <li> Profile: Manage Account Details </li>
+     </ol>
+     <img src="resources/order.png" width=50%/>
+     <div class="row">
+       {{> progress number = 75}}
+     </div>
+   </div>
+ 
+   <div class="shop">
+     <br> Click on the Icon above to visit your shop
+     <br/> and make purchase
+     <div class="row">
+       {{> progress number = 100}}
+     </div>
+   </div>
+ 
+   <div class="shopBuyer">
+     You can visit the shop here,
+     <br> Select products to purchase and add them to cart
+     <div class="row">
+       {{> progress number = 50}}
+     </div>
+   </div>
+ 
+   <div class="retakeTour">
+     Click on the take tour icon
+     <br/> on the User icon dropdown <br/> to take tour anytime
+   </div>
+ 
+   <div class="profile">
+     Select "Profile" from drop down
+     <br>to customize your user profile
+     <div class="row">
+       {{> progress number = 75}}
+     </div>
+   </div>
+ 
+   <div class="cart">
+     All products added to cart can be seen here,
+     <br> checkout when ready to make your orders
+     <div class="row">
+       {{> progress number = 100}}
+     </div>
+   </div>
+ </template>
+ 
+ <template name="progress">
+   <br/>
+   <div class="progress">
+     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{number}}" aria-valuemin="0" aria-valuemax="100" style="width: {{number}}%">
+       {{number}}% Complete
+     </div>
+   </div>
+ </template>

@@ -6,7 +6,9 @@
     <div class="menu">
       {{> tagNav tagNavProps}}
     </div>
-
+    {{#unless currentUser}}
+      <div id="takeTour" class="tour">{{> React tourButton}}</div>
+         {{/unless}}
     {{#if isSearchEnabled}}
       <div class="search">{{> React IconButtonComponent}}</div>
     {{/if}}
@@ -15,7 +17,7 @@
     {{/if}}
     <div class="languages hidden-xs">{{> i18nChooser}}</div>
     <div class="currencies hidden-xs">{{> currencySelect}}</div>
-    <div class="accounts">{{> accounts tpl="loginDropdown"}}</div>
+    <div class="accounts" tour-accounts>{{> accounts tpl="loginDropdown"}}</div>
     <div class="cart">{{> cartIcon}}</div>
     <div class="cart-alert">{{> cartPanel}}</div>
   </div>

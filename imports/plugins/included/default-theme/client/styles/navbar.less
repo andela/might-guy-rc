@@ -8,10 +8,11 @@
   border: 0;
 }
 
+.rui.navbar .dropdown-toggle,
 .rui.navbar a,
-.rui.navbar a:hover,
+
 .rui.navbar a:focus,
-.rui.navbar .dropdown-toggle {
+.rui.navbar a:hover {
   color: @navbar-default-link-color;
   cursor: pointer;
   text-decoration: none;
@@ -129,8 +130,8 @@ html:not(.rtl) .rui.navbar .languages .dropdown-menu {
 
 .rui.navbar .languages li,
 .rui.navbar .languages .menu-item,
-.rui.navbar .currencies li,
-.rui.navbar .currencies .menu-item {
+.rui.navbar .currencies .menu-item,
+.rui.navbar .currencies li {
   .text-align(left);
 }
 
@@ -231,8 +232,8 @@ html:not(.rtl) .rui.navbar .languages .dropdown-menu {
   min-height: 44px;
 }
 
-.rui.navbar .accounts .dropdown .dropdown-apps-icon a:hover,
-.rui.navbar .accounts .dropdown .dropdown-apps-icon a:focus {
+.rui.navbar .accounts .dropdown .dropdown-apps-icon a:focus,
+.rui.navbar .accounts .dropdown .dropdown-apps-icon a:hover {
   color: @brand-vivid-color;
   text-decoration: none;
   background-color: transparent;
@@ -262,3 +263,26 @@ html:not(.rtl) .rui.navbar .languages .dropdown-menu {
 .rui.navbar .search:hover button {
   outline: none;
 }
+
+.rui.navbar .tour {
+   .display(flex);
+   .align-items(center);
+   .flex(0 0 auto);
+   height: @navbar-height;
+   padding: 0 @navbar-padding-vertical;
+   cursor: pointer;
+ }
+ 
+ .rui.navbar .tour:hover {
+   background-color: @navbar-default-toggle-icon-bar-bg;
+   border-color: @navbar-default-toggle-border-color;
+ }
+ 
+ .rui.navbar .tour:hover button {
+   outline: none;
+ }
+ 
+ .rui.navbar .tour .flat {
+   width: auto;
+ }
+

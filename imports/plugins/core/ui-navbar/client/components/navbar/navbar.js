@@ -2,6 +2,7 @@ import { FlatButton } from "/imports/plugins/core/ui/client/components";
 import { NotificationContainer } from "/imports/plugins/included/notifications/client/containers";
 import { Reaction } from "/client/api";
 import { Tags } from "/lib/collections";
+import { buyerTour } from "/imports/plugins/included/tour/client/tour";
 
 
 Template.CoreNavigationBar.onCreated(function () {
@@ -36,6 +37,10 @@ Template.CoreNavigationBar.events({
     $("body").css("overflow", "hidden");
     $("#search-input").focus();
   },
+  "click #takeTour": (event) =>{
+    event.preventDefault();
+    buyerTour.start();
+  },
   "click .notification-icon": function () {
     $("body").css("overflow", "hidden");
     $("#notify-dropdown").focus();
@@ -60,6 +65,13 @@ Template.CoreNavigationBar.helpers({
       component: FlatButton,
       icon: "fa fa-search",
       kind: "flat"
+    };
+  },
+  tourButton() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      label: "Take Tour"
     };
   },
   notificationButtonComponent() {

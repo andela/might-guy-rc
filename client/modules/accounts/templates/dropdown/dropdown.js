@@ -3,6 +3,7 @@ import { Tags } from "/lib/collections";
 import { Session } from "meteor/session";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
+import { buyerTour, vendorTour } from "/imports/plugins/included/tour/client/tour";
 
 Template.loginDropdown.events({
 
@@ -32,6 +33,17 @@ Template.loginDropdown.events({
       }
     });
   },
+  "click #takeTour": (event) => {
+    event.preventDefault();
+    if (Meteor.user()) {
+      if (Reaction.hasAdminAccess()) {
+        vendorTour.start();
+      } else {
+        buyerTour.start();
+      }
+    }
+  },
+
 
   /**
    * Submit sign up form
@@ -65,6 +77,9 @@ Template.loginDropdown.events({
       event.preventDefault();
       /** TMP **/
       Reaction.showActionView(this);
+      if (vendorTour.currentStep && vendorTour.currentStep.isOpen()) {
+        vendorTour.next();
+      }
     } else if (this.route || this.name) {
       const route = this.name || this.route;
       Reaction.Router.go(route);
