@@ -49,6 +49,7 @@
     "jquery": "^3.2.1",
     "jquery-i18next": "^1.2.0",
     "later": "^1.2.0",
+    "lib": "^2.2.6",
     "lodash": "^4.17.4",
     "lodash.pick": "^4.4.0",
     "meteor-node-stubs": "^0.2.6",
