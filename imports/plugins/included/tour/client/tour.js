@@ -114,7 +114,7 @@ Template.tour.onRendered(function () {
   vendorTour.addStep("profileOrdersAccounts", {
     title: "Orders",
     text: template.profileOrdersAccounts,
-    // attachTo: ".tour-accounts bottom"
+    attachTo: ".tour-accounts bottom"
   });
 
   vendorTour.addStep("visitShop", {
@@ -126,7 +126,7 @@ Template.tour.onRendered(function () {
   vendorTour.addStep("toViewnextTime", {
     title: "Information",
     text: template.retakeTour,
-    // attachTo: ".tour-accounts bottom",
+    attachTo: ".tour-accounts bottom",
     buttons: [getButton("vendorTour").back, getButton("vendorTour").finish ]
   });
 
@@ -145,7 +145,7 @@ Template.tour.onRendered(function () {
   buyerTour.addStep("profile", {
     title: "Profile",
     text: template.profile,
-    // attachTo: ".tour-accounts bottom"
+    attachTo: ".tour-accounts bottom"
   });
 
   buyerTour.addStep("Cart", {

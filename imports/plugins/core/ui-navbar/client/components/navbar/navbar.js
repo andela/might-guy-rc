@@ -44,6 +44,10 @@ Template.CoreNavigationBar.events({
   "click .notification-icon": function () {
     $("body").css("overflow", "hidden");
     $("#notify-dropdown").focus();
+  },
+  "click #moreinfo": function () {
+    $("body").css("overflow", "hidden");
+    $("#myModal").modal("show");
   }
 });
 
@@ -72,6 +76,13 @@ Template.CoreNavigationBar.helpers({
       component: FlatButton,
       kind: "flat",
       label: "Take Tour"
+    };
+  },
+  pageButton() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      label: "More Info"
     };
   },
   notificationButtonComponent() {
