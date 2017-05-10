@@ -1,5 +1,6 @@
 import { Meteor } from "meteor/meteor";
 import { Logger, MethodHooks, Reaction } from "/server/api";
+import { Orders } from "/lib/collections";
 
 const getAdminUserId = () => {
   // TODO validate with multiple show owners
@@ -13,14 +14,14 @@ const getAdminUserId = () => {
   return false;
 };
 
-const sendNotificationToAdmin = (adminId) => {
+const sendNotificationToAdmin = (adminId, orderId) => {
   const type = "forAdmin";
   const prefix = Reaction.getShopPrefix();
   const url = `${prefix}/dashboard/orders`;
   const sms = true;
   // Sending notification to admin
   Logger.debug("sending notification to admin");
-  return Meteor.call("notification/send", adminId, type, url, sms);
+  return Meteor.call("notification/send", adminId, type, url, sms, orderId);
 };
 
 MethodHooks.after("cart/copyCartToOrder", function (options) {
@@ -30,14 +31,19 @@ MethodHooks.after("cart/copyCartToOrder", function (options) {
   const url = `${prefix}/notifications`;
   const sms = true;
 
+  const order = Orders.findOne(
+    { userId: userId },
+    { sort: { createdAt: -1 } });
+  const orderId = order._id;
+
   // Send notification to user who made the order
   Logger.debug(`sending notification to user: ${userId}`);
-  Meteor.call("notification/send", userId, type, url, sms);
+  Meteor.call("notification/send", userId, type, url, sms, orderId);
 
   // Sending notification to admin
   const adminId = getAdminUserId();
   if (adminId) {
-    return sendNotificationToAdmin(adminId);
+    return sendNotificationToAdmin(adminId, orderId);
   }
   return options.result;
 });
