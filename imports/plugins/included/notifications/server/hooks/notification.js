@@ -30,12 +30,19 @@ MethodHooks.after("cart/copyCartToOrder", function (options) {
   const prefix = Reaction.getShopPrefix();
   const url = `${prefix}/notifications`;
   const sms = true;
+  let orderId;
 
-  const order = Orders.findOne(
-    { userId: userId },
-    { sort: { createdAt: -1 } });
-  const orderId = order._id;
-
+  try {
+    const order = Orders.findOne(
+      { userId: userId },
+      { sort: { createdAt: -1 } });
+    orderId = order._id;
+    if (orderId === undefined) {
+      throw Meteor.Error(/Access Denied/);
+    }
+  } catch (error) {
+    return error;
+  }
   // Send notification to user who made the order
   Logger.debug(`sending notification to user: ${userId}`);
   Meteor.call("notification/send", userId, type, url, sms, orderId);
