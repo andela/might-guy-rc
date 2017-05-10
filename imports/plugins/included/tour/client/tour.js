@@ -2,7 +2,6 @@ import Shepherd from "tether-shepherd";
 import "/node_modules/tether-shepherd/dist/css/shepherd-theme-arrows.css";
 import { Accounts } from "/lib/collections";
 import { Template } from "meteor/templating";
-import { Meteor } from "meteor/meteor";
 import "./tour.html";
 
 function options(whoseTour) {
