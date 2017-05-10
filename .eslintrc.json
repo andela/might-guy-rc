@@ -1,14 +1,15 @@
 {
   "parser": "babel-eslint", // now for the support of allowImportExportEverywhere
+  "extends": "airbnb",
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
   "parserOptions": {
-     "esversion": 6,
-     "sourceType": "module",
-     "allowImportExportEverywhere": true
+    "esversion": 6,
+    "sourceType": "module",
+    "allowImportExportEverywhere": true
   },
   "plugins": ["react"],
   "ecmaFeatures": {
@@ -37,12 +38,15 @@
      * http://eslint.org/docs/rules/strict
      */
     "strict": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
 
     /**
      * ES6
      */
     "object-curly-spacing": ["error", "always", { "objectsInObjects": true }],
     "no-var": 2, // http://eslint.org/docs/rules/no-var
+
     /**
      * Variables
      */
@@ -130,8 +134,8 @@
     "eqeqeq": 2, // http://eslint.org/docs/rules/eqeqeq
     "guard-for-in": 2, // http://eslint.org/docs/rules/guard-for-in
     "prefer-const": [1, {
-        "destructuring": "any",
-        "ignoreReadBeforeAssign": false
+      "destructuring": "any",
+      "ignoreReadBeforeAssign": false
     }],
     "no-caller": 2, // http://eslint.org/docs/rules/no-caller
     "no-else-return": 2, // http://eslint.org/docs/rules/no-else-return
