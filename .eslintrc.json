@@ -6,7 +6,7 @@
     "es6": true
   },
   "parserOptions": {
-     "ecmaVersion": 6,
+     "esversion": 6,
      "sourceType": "module",
      "allowImportExportEverywhere": true
   },
