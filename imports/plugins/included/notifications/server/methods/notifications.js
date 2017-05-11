@@ -24,7 +24,7 @@ Meteor.methods({
     check(sms, Boolean);
     check(details, Match.OptionalOrNull(String));
     check(url, String);
-    check(orderId, String);
+    check(orderId, Match.OptionalOrNull(String));
 
     const values = {};
     const types = {

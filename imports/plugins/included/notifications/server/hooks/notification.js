@@ -1,6 +1,5 @@
 import { Meteor } from "meteor/meteor";
 import { Logger, MethodHooks, Reaction } from "/server/api";
-import { Orders } from "/lib/collections";
 
 const getAdminUserId = () => {
   // TODO validate with multiple show owners
@@ -30,19 +29,7 @@ MethodHooks.after("cart/copyCartToOrder", function (options) {
   const prefix = Reaction.getShopPrefix();
   const url = `${prefix}/notifications`;
   const sms = true;
-  let orderId;
-
-  try {
-    const order = Orders.findOne(
-      { userId: userId },
-      { sort: { createdAt: -1 } });
-    orderId = order._id;
-    if (orderId === undefined) {
-      throw Meteor.Error(/Access Denied/);
-    }
-  } catch (error) {
-    return error;
-  }
+  const orderId = options.result;
   // Send notification to user who made the order
   Logger.debug(`sending notification to user: ${userId}`);
   Meteor.call("notification/send", userId, type, url, sms, orderId);
@@ -52,5 +39,5 @@ MethodHooks.after("cart/copyCartToOrder", function (options) {
   if (adminId) {
     return sendNotificationToAdmin(adminId, orderId);
   }
-  return options.result;
+  return orderId;
 });
