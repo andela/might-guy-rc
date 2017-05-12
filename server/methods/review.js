@@ -42,7 +42,7 @@ Meteor.methods({
     const reviews = Collections.Reviews.find({ productId: productID }).fetch();
     return Object.keys(reviews).reduce((previous, key) => {
       return previous + reviews[key].rating;
-    }, 0) / reviews.length;
+    }, 0) / reviews.length || "Not rated";
   },
 
   "current/user"(userID) {
