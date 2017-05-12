@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import StarRatingComponent from "react-star-rating-component";
 import FacebookProvider, { Comments } from "react-facebook";
 
@@ -73,7 +73,7 @@ class Reviews extends React.Component {
   }
 
   closeReview() {
-    Meteor.call("close/review", this.props.product._id, (error, success) => {
+    Meteor.call("close/review", this.props.product._id, (error) => {
       if (!error) {
         this.getAllReviews();
       }
@@ -81,7 +81,7 @@ class Reviews extends React.Component {
   }
 
   openReview() {
-    Meteor.call("open/review", this.props.product._id, (error, success) => {
+    Meteor.call("open/review", this.props.product._id, (error) => {
       if (!error) {
         this.getAllReviews();
       }
@@ -221,5 +221,9 @@ class Reviews extends React.Component {
     );
   }
 }
+
+Reviews.propTypes = {
+  products: PropTypes.object.isRequired
+};
 
 export default Reviews;
