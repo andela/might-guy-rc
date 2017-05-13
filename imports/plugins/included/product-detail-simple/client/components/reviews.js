@@ -67,26 +67,26 @@ class Reviews extends React.Component {
             isAuth: true
           });
         }
-        (Meteor.user().username === "Admin") ? this.setState({ isAdmin: true }) : "";
+        (Meteor.user().username === "Admin") ? this.setState({ isAdmin: true, username: "Admin" }) : "";
       }
     });
   }
 
-  closeReview() {
-    Meteor.call("close/review", this.props.product._id, (error) => {
-      if (!error) {
-        this.getAllReviews();
-      }
-    });
-  }
+  // closeReview() {
+  //   Meteor.call("close/review", this.props.product._id, (error) => {
+  //     if (!error) {
+  //       this.getAllReviews();
+  //     }
+  //   });
+  // }
 
-  openReview() {
-    Meteor.call("open/review", this.props.product._id, (error) => {
-      if (!error) {
-        this.getAllReviews();
-      }
-    });
-  }
+  // openReview() {
+  //   Meteor.call("open/review", this.props.product._id, (error) => {
+  //     if (!error) {
+  //       this.getAllReviews();
+  //     }
+  //   });
+  // }
 
   recordStarRating(nextValue) {
     this.setState({ rating: nextValue });
@@ -136,17 +136,17 @@ class Reviews extends React.Component {
       <div className="container">
         <div className="col-md-6 review-block">
           <div id="reviews" className="row">
-          <h2>Average rating: { this.state.averageRating} </h2>
-            {
-              isAdmin
+          {
+            isAdmin
+            ?
+              this.props.product.reviewStatus === "close"
               ?
-                this.props.product.reviewStatus === "close"
-                ?
-                  <button className="btn btn-default btn-info" onClick={this.openReview}>Open review for this Product</button>
-                :
-                  <button className="btn btn-default btn-info" onClick={this.closeReview}>Close review for this Product</button>
-              : ""
+                <button className="btn btn-default btn-info" onClick={this.openReview}>Open review for this Product</button>
+              :
+                <button className="btn btn-default btn-info" onClick={this.closeReview}>Close review for this Product</button>
+            : ""
             }
+          <h2>Average rating: { this.state.averageRating} </h2>
           {
             isAuth || isAdmin && this.props.product.reviewStatus !== "close"
             ?
