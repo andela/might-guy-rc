@@ -7,7 +7,9 @@ Package.describe({
 
 Npm.depends({
   "mongodb": "2.2.9",
-  "gridfs-stream": "1.1.1"
+  "gridfs-stream": "1.1.1",
+  "react-star-rating-component": "1.2.4",
+  "react-facebook": "4.0.8"
 });
 
 Package.onUse(function (api) {
