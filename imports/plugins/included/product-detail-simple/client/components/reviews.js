@@ -223,11 +223,11 @@ class Reviews extends React.Component {
 }
 
 Reviews.propTypes = {
-  products: PropTypes.object
+  product: PropTypes.object
 };
 
 Reviews.defaultProps = {
-  products: {}
+  product: {}
 };
 
 export default Reviews;
