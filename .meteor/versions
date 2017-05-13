@@ -8,7 +8,7 @@ accounts-password@1.3.6
 accounts-twitter@1.2.1
 alanning:roles@1.2.16
 aldeed:autoform@5.8.1
-aldeed:browser-tests@0.1.1
+aldeed:browser-tests@0.1.0
 aldeed:collection2@2.10.0
 aldeed:collection2-core@1.2.0
 aldeed:schema-deny@1.1.0
@@ -57,7 +57,7 @@ cfs:upload-http@0.0.20
 cfs:worker@0.1.4
 check@1.2.5
 chuangbo:cookie@1.1.0
-coffeescript@1.12.3_1
+coffeescript@1.11.1_4
 dburles:factory@1.1.0
 ddp@1.2.5
 ddp-client@1.3.4
@@ -66,7 +66,7 @@ ddp-rate-limiter@1.0.7
 ddp-server@1.3.14
 deps@1.0.12
 diff-sequence@1.0.7
-dispatch:mocha@0.4.1
+dispatch:mocha@0.3.0
 dispatch:run-as-user@1.1.1
 ecmascript@0.7.3
 ecmascript-runtime@0.3.15
@@ -79,7 +79,7 @@ fastclick@1.0.13
 gadicc:blaze-react-component@1.4.0
 geojson-utils@1.0.10
 google-config-ui@1.0.0
-google-oauth@1.2.4
+google-oauth@1.2.3
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11
@@ -132,7 +132,7 @@ oauth-encryption@1.2.1
 oauth1@1.1.11
 oauth2@1.1.11
 observe-sequence@1.0.16
-ongoworks:security@2.1.0
+ongoworks:security@2.0.1
 ordered-dict@1.0.9
 percolate:migrations@0.9.8
 practicalmeteor:chai@2.1.0_1
@@ -170,6 +170,8 @@ twitter-oauth@1.2.0
 ui@1.0.13
 underscore@1.0.10
 url@1.1.0
-vsivsi:job-collection@1.5.1
+vsivsi:job-collection@1.4.0
 webapp@1.3.15
 webapp-hashing@1.0.9
+react-facebook@4.0.8
+react-star-rating-component@1.2.4
