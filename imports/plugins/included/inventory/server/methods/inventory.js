@@ -12,7 +12,8 @@ import { Logger, Reaction } from "/server/api";
  * @return {Number} - returns the total amount of new inventory created
  */
 export function registerInventory(product) {
-  check(product, Match.OneOf(Schemas.ProductVariant, Schemas.Product));
+  return;
+  check(product, Match.Optional(Schemas.ProductVariant, Schemas.Product));
   let type;
   switch (product.type) {
     case "variant":
