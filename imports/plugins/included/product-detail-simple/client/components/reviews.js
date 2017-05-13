@@ -1,3 +1,5 @@
+/* eslint no-nested-ternary: 0, dot-notation: 0 */
+
 import React, { PropTypes } from "react";
 import StarRatingComponent from "react-star-rating-component";
 import FacebookProvider, { Comments } from "react-facebook";
