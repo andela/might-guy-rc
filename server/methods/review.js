@@ -40,9 +40,9 @@ Meteor.methods({
   "averageRating/review"(productID) {
     check(productID, String);
     const reviews = Collections.Reviews.find({ productId: productID }).fetch();
-    return Object.keys(reviews).reduce((previous, key) => {
+    return (Object.keys(reviews).reduce((previous, key) => {
       return previous + reviews[key].rating;
-    }, 0) / reviews.length || "Not rated";
+    }, 0) / reviews.length).toFixed(1) || "Not rated";
   },
 
   "current/user"(userID) {
