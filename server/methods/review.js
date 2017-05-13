@@ -18,19 +18,19 @@ Meteor.methods({
     });
   },
 
-  "close/review"(productID) {
-    check(productID, String);
-    return Collections.Products.update({
-      _id: productID
-    }, { $set: { reviewStatus: "close" } });
-  },
+  // "close/review"(productID) {
+  //   check(productID, String);
+  //   return Collections.Products.update({
+  //     _id: productID
+  //   }, { $set: { reviewStatus: "close" } });
+  // },
 
-  "open/review"(productID) {
-    check(productID, String);
-    return Collections.Products.update({
-      _id: productID
-    }, { $set: { reviewStatus: "open" } });
-  },
+  // "open/review"(productID) {
+  //   check(productID, String);
+  //   return Collections.Products.update({
+  //     _id: productID
+  //   }, { $set: { reviewStatus: "open" } });
+  // },
 
   "find/review"(productID) {
     check(productID, String);
@@ -40,9 +40,10 @@ Meteor.methods({
   "averageRating/review"(productID) {
     check(productID, String);
     const reviews = Collections.Reviews.find({ productId: productID }).fetch();
-    return (Object.keys(reviews).reduce((previous, key) => {
+    const average = Object.keys(reviews).reduce((previous, key) => {
       return previous + reviews[key].rating;
-    }, 0) / reviews.length).toFixed(1) || "Not rated";
+    }, 0) / reviews.length;
+    return (isNaN(average) ?  "Not rated" : average.toFixed(1));
   },
 
   "current/user"(userID) {
