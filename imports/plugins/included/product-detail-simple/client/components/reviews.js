@@ -25,8 +25,8 @@ class Reviews extends React.Component {
     this.getAllReviews = this.getAllReviews.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
-    this.closeReview = this.closeReview.bind(this);
-    this.openReview = this.openReview.bind(this);
+    // this.closeReview = this.closeReview.bind(this);
+    // this.openReview = this.openReview.bind(this);
     this.getAveragerating = this.getAveragerating.bind(this);
   }
 
