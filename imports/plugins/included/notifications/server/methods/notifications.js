@@ -28,12 +28,12 @@ Meteor.methods({
 
     const values = {};
     const types = {
-      orderCancelled: "Your order was canceled.",
+      orderCancelled: `Your order #${orderId} was canceled.`,
       newOrder: `Your order #${orderId} is being processed.`,
       forAdmin: `You have a new order #${orderId}.`,
-      orderDelivered: "Your order has been delivered.",
-      orderAccepted: "Your order has been accepted.",
-      orderShipped: "Your order has been shipped."
+      orderDelivered: `Your order #${orderId} has been delivered.`,
+      orderAccepted: `Your order #${orderId} has been accepted.`,
+      orderShipped: `Your order #${orderId} has been shipped.`
     };
 
     if (userId && type && url) {
