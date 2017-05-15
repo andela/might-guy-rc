@@ -2,9 +2,9 @@
   "ROOT_URL": "",
   "MAIL_URL": "",
   "reaction": {
-    "REACTION_USER": "",
+    "REACTION_USER": "anu",
     "REACTION_AUTH": "",
-    "REACTION_EMAIL": ""
+    "REACTION_EMAIL": "anuoluwapo.onifade@andela"
   },
   "REACTION_LOG_LEVEL": "info",
   "public": {}
