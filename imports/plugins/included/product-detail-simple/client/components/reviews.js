@@ -138,16 +138,6 @@ class Reviews extends React.Component {
       <div className="container">
         <div className="col-md-6 review-block">
           <div id="reviews" className="row">
-          {
-            isAdmin
-            ?
-              this.props.product.reviewStatus === "close"
-              ?
-                <button className="btn btn-default btn-info" onClick={this.openReview}>Open review for this Product</button>
-              :
-                <button className="btn btn-default btn-info" onClick={this.closeReview}>Close review for this Product</button>
-            : ""
-            }
           <h2>Average rating: { this.state.averageRating} </h2>
           {
             isAuth || isAdmin && this.props.product.reviewStatus !== "close"
