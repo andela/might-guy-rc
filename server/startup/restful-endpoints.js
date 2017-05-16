@@ -1,5 +1,4 @@
 import { Shops, Products, Orders, Cart, Shipping, Emails, Accounts } from "/lib/collections";
-import { Roles } from "meteor/alanning:roles";
 import Reaction  from "/server/api/core";
 
 const hasPermission = (user, role) => {
