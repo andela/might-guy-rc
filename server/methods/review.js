@@ -18,20 +18,6 @@ Meteor.methods({
     });
   },
 
-  // "close/review"(productID) {
-  //   check(productID, String);
-  //   return Collections.Products.update({
-  //     _id: productID
-  //   }, { $set: { reviewStatus: "close" } });
-  // },
-
-  // "open/review"(productID) {
-  //   check(productID, String);
-  //   return Collections.Products.update({
-  //     _id: productID
-  //   }, { $set: { reviewStatus: "open" } });
-  // },
-
   "find/review"(productID) {
     check(productID, String);
     return Collections.Reviews.find({ productId: productID }).fetch();
