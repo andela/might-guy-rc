@@ -25,8 +25,6 @@ class Reviews extends React.Component {
     this.getAllReviews = this.getAllReviews.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
     this.getCurrentUser = this.getCurrentUser.bind(this);
-    // this.closeReview = this.closeReview.bind(this);
-    // this.openReview = this.openReview.bind(this);
     this.getAveragerating = this.getAveragerating.bind(this);
   }
 
@@ -74,22 +72,6 @@ class Reviews extends React.Component {
     });
   }
 
-  // closeReview() {
-  //   Meteor.call("close/review", this.props.product._id, (error) => {
-  //     if (!error) {
-  //       this.getAllReviews();
-  //     }
-  //   });
-  // }
-
-  // openReview() {
-  //   Meteor.call("open/review", this.props.product._id, (error) => {
-  //     if (!error) {
-  //       this.getAllReviews();
-  //     }
-  //   });
-  // }
-
   recordStarRating(nextValue) {
     this.setState({ rating: nextValue });
   }
@@ -115,6 +97,8 @@ class Reviews extends React.Component {
         this.getAllReviews();
         this.getAveragerating();
         this.setState({ error: "" });
+      } else {
+        return this.setState({ error: "Please try again. An error occurred posting your review" });
       }
     });
   }
@@ -124,6 +108,8 @@ class Reviews extends React.Component {
       if (!error) {
         this.getAllReviews();
         this.getAveragerating();
+      } else {
+        return this.setState({ error: "Please try again. An error occurred deleting your review" });
       }
     });
   }
@@ -154,17 +140,29 @@ class Reviews extends React.Component {
                       onChange={this.onChange}
                     />
                     <br />
-                    <div>
-                      <strong>Rating:</strong>
-                        <StarRatingComponent
-                          name="product-rating"
-                          onStarClick={this.recordStarRating}
-                          value={this.state.rating}
-                        />
-                    </div>
-                    <p className="alert-error">
-                      { this.state.error }
-                    </p>
+                    {
+                      !isAdmin
+                      ?
+                        <div>
+                          <strong>Rating:</strong>
+                            <StarRatingComponent
+                              name="product-rating"
+                              onStarClick={this.recordStarRating}
+                              value={this.state.rating}
+                            />
+                        </div>
+                      :
+                        ""
+                    }
+                    {
+                      this.state.error
+                      ?
+                        <p className="alert alert-danger">
+                          { this.state.error }
+                        </p>
+                      :
+                        ""
+                    }
                     <button type="submit" id="send" onClick={this.onSubmit} className="btn btn-primary pull-left">Submit Review</button>
                   </div>
                 </div>
