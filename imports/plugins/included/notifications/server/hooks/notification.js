@@ -13,14 +13,14 @@ const getAdminUserId = () => {
   return false;
 };
 
-const sendNotificationToAdmin = (adminId) => {
+const sendNotificationToAdmin = (adminId, orderId) => {
   const type = "forAdmin";
   const prefix = Reaction.getShopPrefix();
   const url = `${prefix}/dashboard/orders`;
   const sms = true;
   // Sending notification to admin
   Logger.debug("sending notification to admin");
-  return Meteor.call("notification/send", adminId, type, url, sms);
+  return Meteor.call("notification/send", adminId, type, url, sms, orderId);
 };
 
 MethodHooks.after("cart/copyCartToOrder", function (options) {
@@ -29,15 +29,15 @@ MethodHooks.after("cart/copyCartToOrder", function (options) {
   const prefix = Reaction.getShopPrefix();
   const url = `${prefix}/notifications`;
   const sms = true;
-
+  const orderId = options.result;
   // Send notification to user who made the order
   Logger.debug(`sending notification to user: ${userId}`);
-  Meteor.call("notification/send", userId, type, url, sms);
+  Meteor.call("notification/send", userId, type, url, sms, orderId);
 
   // Sending notification to admin
   const adminId = getAdminUserId();
   if (adminId) {
-    return sendNotificationToAdmin(adminId);
+    return sendNotificationToAdmin(adminId, orderId);
   }
-  return options.result;
+  return orderId;
 });

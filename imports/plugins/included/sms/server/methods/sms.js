@@ -42,7 +42,9 @@ Meteor.methods({
     check(userId, String);
     check(shopId, String);
 
-    const user = Accounts.findOne();
+    const user = Accounts.findOne({
+      _id: userId
+    });
     const addressBook = user.profile.addressBook;
     let phone = false;
     // check for addressBook phone
@@ -54,7 +56,6 @@ Meteor.methods({
 
     if (phone) {
       const smsSettings = Sms.findOne();
-
       if (smsSettings) {
         const { apiKey, apiToken, smsPhone, smsProvider } = smsSettings;
         if (smsProvider === "twilio") {
