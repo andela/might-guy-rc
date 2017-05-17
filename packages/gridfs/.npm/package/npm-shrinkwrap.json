@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "bson": {
-      "version": "0.5.4",
-      "resolved": "https://registry.npmjs.org/bson/-/bson-0.5.4.tgz",
+      "version": "0.5.7",
+      "resolved": "https://registry.npmjs.org/bson/-/bson-0.5.7.tgz",
       "from": "bson@>=0.5.4 <0.6.0"
     },
     "buffer-shims": {
@@ -31,8 +31,8 @@
       "from": "gridfs-stream@1.1.1"
     },
     "inherits": {
-      "version": "2.0.1",
-      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz",
+      "version": "2.0.3",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.3.tgz",
       "from": "inherits@>=2.0.1 <2.1.0"
     },
     "isarray": {

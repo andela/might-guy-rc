@@ -15,10 +15,10 @@
                 "apiKey": ""
             },
             "mail": {
-                "user": "",
-                "password": "",
-                "host": "",
-                "port": ""
+                "user": "mightguy.rc@gmail.com",
+                "password": "AmYfJU123",
+                "host": "smtp.gmail.com",
+                "port": "465"
             },
             "cart": {
                 "cleanupDurationDays": "older than 3 days"
