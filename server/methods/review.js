@@ -25,7 +25,7 @@ Meteor.methods({
 
   "averageRating/review"(productID) {
     check(productID, String);
-    const reviews = Collections.Reviews.find({ productId: productID }).fetch();
+    const reviews = Collections.Reviews.find({ productId: productID, username: !"Admin" }).fetch();
     const average = Object.keys(reviews).reduce((previous, key) => {
       return previous + reviews[key].rating;
     }, 0) / reviews.length;
