@@ -5,7 +5,7 @@ Template.searchInput.helpers({
   settings: function () {
     return {
       position: "bottom",
-      limit: 5,
+      limit: 4,
       rules: [
         {
           token: "",
