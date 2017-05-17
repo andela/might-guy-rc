@@ -12,6 +12,7 @@ dependencies:
     - hash meteor 2>/dev/null || curl https://install.meteor.com | /bin/sh
     - npm i -g reaction-cli
     - meteor npm install
+    - meteor npm install react-facebook react-star-rating-component --save
 
 test:
   override:

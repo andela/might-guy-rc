@@ -7,7 +7,7 @@ import { ReactionProduct } from "/lib/api";
 import { Reaction, i18next, Logger } from "/client/api";
 import { Tags, Media, Cart } from "/lib/collections";
 import { Loading } from "/imports/plugins/core/ui/client/components";
-import { ProductDetail, ProductNotFound } from "../components";
+import { ProductDetail, ProductNotFound, Reviews } from "../components";
 import { SocialContainer, VariantListContainer } from "./";
 import { MediaGalleryContainer } from "/imports/plugins/core/ui/client/containers";
 import { DragDropProvider, TranslationProvider } from "/imports/plugins/core/ui/client/providers";
@@ -215,6 +215,7 @@ class ProductDetailContainer extends Component {
               onProductFieldChange={this.handleProductFieldChange}
               {...this.props}
             />
+            <Reviews product={this.props.product}/>
           </StyleRoot>
         </DragDropProvider>
       </TranslationProvider>
@@ -345,6 +346,5 @@ function composer(props, onData) {
     }
   }
 }
-
 // Decorate component and export
 export default composeWithTracker(composer, Loading)(ProductDetailContainer);
