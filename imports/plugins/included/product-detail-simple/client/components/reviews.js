@@ -7,7 +7,6 @@ import FacebookProvider, { Comments } from "react-facebook";
 class Reviews extends React.Component {
   constructor(props) {
     super(props);
-    this.recordStarRating = this.recordStarRating.bind(this);
     this.state = {
       rating: 0,
       username: "",
@@ -20,6 +19,7 @@ class Reviews extends React.Component {
       error: "",
       averageRating: 0
     };
+    this.recordStarRating = this.recordStarRating.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.getAllReviews = this.getAllReviews.bind(this);
@@ -104,12 +104,13 @@ class Reviews extends React.Component {
   }
 
   deleteComment(commentID) {
-    Meteor.call("delete/review", commentID, (error) => {
-      if (!error) {
+    Meteor.call("delete/review", commentID, (error, success) => {
+      if (success) {
+        this.setState({ error: "" });
         this.getAllReviews();
         this.getAveragerating();
       } else {
-        return this.setState({ error: "Please try again. An error occurred deleting your review" });
+        this.setState({ error: "Please try again. An error occurred deleting your review" });
       }
     });
   }
