@@ -7,6 +7,33 @@ import { PaystackPayment } from "../../lib/collections/schemas";
 import { Paystack } from "../../lib/api";
 import "./paystack.html";
 import "../../lib/api/paystackApi";
+import { Reaction } from "/client/api";
+import { Shops } from "/lib/collections";
+
+
+const findCurrency = (defaultCurrency, useDefaultShopCurrency) => {
+  const shop = Shops.findOne(Reaction.getShopId(), {
+    fields: {
+      currencies: 1,
+      currency: 1
+    }
+  });
+  const localStorageCurrencyName = localStorage.getItem("currency");
+  if (typeof shop === "object" && shop.currencies && localStorageCurrencyName) {
+    let localStorageCurrency = {};
+    if (shop.currencies[localStorageCurrencyName]) {
+      if (useDefaultShopCurrency) {
+        localStorageCurrency = shop.currencies[shop.currency];
+        localStorageCurrency.exchangeRate = 1;
+      } else {
+        localStorageCurrency = shop.currencies[localStorageCurrencyName];
+        localStorageCurrency.exchangeRate = shop.currencies[localStorageCurrencyName].rate;
+      }
+    }
+    return localStorageCurrency;
+  }
+  return defaultCurrency;
+};
 
 const enableButton = (template, buttonText) => {
   template.$(":input").removeAttr("disabled");
@@ -36,7 +63,8 @@ AutoForm.addHooks("paystack-payment-form", {
   onSubmit(doc) {
     Meteor.call("paystack/getKeys", (err, keys) => {
       const cart = Cart.findOne();
-      const amount = Math.round(cart.cartTotal()) * 100;
+      const currency = findCurrency("USD");
+      const amount = Math.round(currency.exchangeRate * cart.cartTotal()) * 100;
       const template = this.template;
       const key = keys.public || "pk_test_938e72f16c8f7529280d15aa30e06386e9850703";
       const details = {
