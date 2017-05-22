@@ -14,24 +14,26 @@ Meteor.methods({
   * @param {String} type - The type of Notification
   * @param {String} url - url link
   * @param {Boolean} sms - sms enabled check.
+  * @param {String} orderId - The unique id of the order
   * @param {String} details - details of the Notification
   * @return {Object} returns result
   */
-  "notification/send": function (userId, type, url, sms, details) {
+  "notification/send": function (userId, type, url, sms, orderId, details) {
     check(userId, String);
     check(type, String);
     check(sms, Boolean);
     check(details, Match.OptionalOrNull(String));
     check(url, String);
+    check(orderId, Match.OptionalOrNull(String));
 
     const values = {};
     const types = {
-      orderCancelled: "Your order was canceled.",
-      newOrder: "Your order is being processed.",
-      forAdmin: "You have a new order.",
-      orderDelivered: "Your order has been delivered.",
-      orderAccepted: "Your order has been accepted.",
-      orderShipped: "Your order has been shipped."
+      orderCancelled: `Your order #${orderId} was canceled.`,
+      newOrder: `Your order #${orderId} is being processed.`,
+      forAdmin: `You have a new order #${orderId}.`,
+      orderDelivered: `Your order #${orderId} has been delivered.`,
+      orderAccepted: `Your order #${orderId} has been accepted.`,
+      orderShipped: `Your order #${orderId} has been shipped.`
     };
 
     if (userId && type && url) {

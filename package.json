@@ -75,6 +75,7 @@
     "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "15.4.2",
     "react-dropzone": "^3.12.3",
+    "react-facebook": "^4.0.8",
     "react-helmet": "^5.0.1",
     "react-komposer": "^2.0.0",
     "react-measure": "^1.4.6",
@@ -82,6 +83,7 @@
     "react-onclickoutside": "^5.10.0",
     "react-select": "^1.0.0-rc.3",
     "react-simple-di": "^1.2.0",
+    "react-star-rating-component": "^1.2.4",
     "react-taco-table": "^0.5.0",
     "react-tether": "^0.5.6",
     "react-textarea-autosize": "^4.0.5",
@@ -127,6 +129,7 @@
     "open-report": "cd && allure report open",
     "del-report": "rm -rf ~/allure-report && rm -rf allure-results",
     "test-local": "wdio tests/runner/local.conf.js",
-    "test-browserstack": "wdio tests/runner/browserstack.conf.js; kill $(ps aux | grep '[b]rowserstack' | awk '{print $2}')"
+    "test-browserstack": "wdio tests/runner/browserstack.conf.js; kill $(ps aux | grep '[b]rowserstack' | awk '{print $2}')",
+    "postinstall": "meteor npm install react-facebook react-star-rating-component"
   }
 }
