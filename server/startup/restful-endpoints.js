@@ -1,4 +1,4 @@
-import { Shops, Products, Orders, Cart, Shipping, Emails, Accounts } from "/lib/collections";
+import { Shops, Products, Orders, Cart, Shipping } from "/lib/collections";
 import Reaction  from "/server/api/core";
 
 const hasPermission = (user, role) => {
@@ -105,6 +105,4 @@ export default () => {
   Api.addCollection(Orders, getApiOptions(Orders));
   Api.addCollection(Cart, getApiOptions(Cart));
   Api.addCollection(Shipping, getApiOptions(Shipping));
-  Api.addCollection(Emails, getApiOptions(Emails));
-  Api.addCollection(Accounts, getApiOptions(Accounts));
 };
