@@ -67,13 +67,15 @@ export default () => {
             }
             if (hasPermission(this.user, "admin") ||
             hasPermission(this.user, "owner")) {
-              const isUpdated = collectionName.update({ _id: this.urlParams.id }, {
+              const isUpdated = collectionName.upsert({ _id: this.urlParams.id }, {
                 $set: this.bodyParams
               });
               if (!isUpdated) {
                 return { status: "fail", statusCode: 404,
                   message: "An error occurred. Record does not exist" };
-              } return { statusCode: 200, status: "success", data: isUpdated };
+              }
+              const record = collectionName.findOne(this.urlParams.id);
+              return { statusCode: 200, status: "success", data: isUpdated, record };
             }
           }
         },
@@ -88,11 +90,21 @@ export default () => {
             }
             if (hasPermission(this.user, "admin") ||
             hasPermission(this.user, "owner")) {
+              // we delete a product by setting the isDeleted flag
+              if (collectionName._name === "Products") {
+                // get collection from db
+                const collection = collectionName.findOne(this.urlParams.id);
+                // modify isDeleted flag
+                collection.isDeleted = true;
+                // update collection in db
+                const isDeleted = collectionName.upsert({ _id: this.urlParams.id }, {
+                  $set: collection
+                });
+                return { data: isDeleted, message: "product has been archived" };
+                // other collections may be removed
+              }
               const isDeleted = collectionName.remove({ _id: this.urlParams.id });
-              if (isDeleted) {
-                return { status: "success", data: { message: "record is deleted" } };
-              } return { statusCode: 404, status: "fail",
-                message: "record does not exist" };
+              return { status: "success", data: isDeleted,  message: "record is deleted" };
             }
           }
         }
