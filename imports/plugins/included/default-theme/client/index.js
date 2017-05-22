@@ -1,7 +1,7 @@
 // Favicons
 import "./favicons";
 
-dd// tour
+// tour
 import "/node_modules/intro.js/introjs.css";
 import "./styles/tour.css";
 
