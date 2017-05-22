@@ -1,161 +1,343 @@
-import Shepherd from "tether-shepherd";
-import "/node_modules/tether-shepherd/dist/css/shepherd-theme-arrows.css";
+import introJs from "intro.js";
+import { Reaction } from "/client/api";
+import { Meteor } from "meteor/meteor";
 import { Accounts } from "/lib/collections";
-import { Template } from "meteor/templating";
-import "./tour.html";
 
-function options(whoseTour) {
-  return { defaults: {
-    showCancelLink: true,
-    scrollTo: true,
-    classes: "shepherd-theme-arrows",
-    buttons: [getButton(whoseTour).back, getButton(whoseTour).next] }
-  };
-}
-
-export const vendorTour = new Shepherd.Tour(options("vendorTour"));
-export const buyerTour = new Shepherd.Tour(options("buyerTour"));
-
-function getButton(whichTour) {
-  let actionBack;
-  let actionHide;
-  let actionNext;
-  let actionNextTime;
-  if (whichTour === "vendorTour") {
-    actionNext = ()=>{
-      vendorTour.next();
-    };
-    actionHide = ()=>{
-      vendorTour.back();
-    };
-    actionNextTime = ()=>{
-      vendorTour.show("toViewnextTime");
-    };
-  }  else if (whichTour === "buyerTour") {
-    actionNext = () => {
-      buyerTour.next();
-    };
-    actionHide = () => {
-      buyerTour.hide();
-    };
-    actionBack = () => {
-      buyerTour.back();
-    };
-    actionNextTime = () =>{
-      buyerTour.show("toViewnextTime");
-    };
+const tour = introJs.introJs();
+const adminTourSteps = [
+  {
+    intro: `<h2>Welcome to <strong>Reaction</strong> Commerce</h2>
+    <hr>
+    <div>
+      <strong>Reaction</strong> is the first ecommerce solution for small and medium-sized businesses
+      that will provide real time merchandising, real time pricing and promotions, and live monitoring of conversions.
+      <br>This brief tour would introduce you to the important controls to help you navigate and effectively
+      use our platform
+    </div>`
+  },
+  {
+    intro: `<h2>Products</h2>
+    <hr>
+    <div>
+      All available products would be displayed here. Just browse through.<br>
+      When you find that product you have been searching for, click on it and proceed to adding it to your cart.
+      <br><strong>OR</strong>
+      <br>As a Vendor/Admin you can edit, update, delete your products by clicking on them to visit the product detail page.
+    </div>`
+  },
+  {
+    element: ".search",
+    intro: `<h2>Search</h2>
+    <hr>
+    <div>
+      With countless number of products waiting to be checked out, we help you
+      discover that product you're looking for by offering you an intuitive to use
+      search system with the following capabilities:
+      <ol>
+        <li>Sorting products search results in Ascending or Descending price range.</li>
+        <li>Filter products search results based on tags</li>
+        <li>Filter products search results by brands</li>
+        <li>Sort products search results based on the product sales</li>
+        <li>Sort product search results based on their creation date (newest item)</li>
+      </ol>
+      Search results appear instantly as you type.
+      <br> Found that product ? Click on it's icon, and proceed to adding it to your cart
+    </div>`
+  },
+  {
+    element: ".cart",
+    intro: `<h2>My Cart</h2>
+    <hr>
+    <div>
+      Yeah, So you've found that product or those products and added them to you cart.
+      It's time to check out.<br>
+      Click on the cart icon to check out. <br>
+      Note that we presently offer only 2 means of payment:
+      <ol>
+        <li>
+          <strong>Wallet</strong>
+        </li>
+        <li>
+          <strong>Paystack</strong>
+        </li>
+      </ol>
+    </div>`
+  },
+  {
+    element: ".languages",
+    intro: `<h2>Languages</h2>
+    <hr>
+    <div>
+      Language should never be a barrier. <br> We understand that the earth is a global village, where everyone
+      is connected and we aim to provide our services to everyone around the world regardless of their language.<br>
+      Just click on language icon and select you preferred language from the dropdown.
+    </div>`
+  },
+  {
+    element: "#accounts",
+    intro: `<h2>Account Options</h2>
+    <hr>
+    <div style="height:200px; overflow-y: scroll;">
+      Here we have several other options to help you customize your account, and also get the best out of
+      <strong>Reaction</strong> Commerce. Just choose from one of the following options available in the dropdown shown in the screen shot below
+      <ol>
+        <li>
+          <strong>Profile: </strong>view and update your profile details.
+        </li>
+        <li>
+          <strong>Wallet: </strong>  Fund your wallet, transfer funds to other users wallet and more.
+        </li>
+        <li>
+          <strong>Dashboard: </strong> View your dashboard. Manage the various packages offered by <strong>Reaction</strong>
+        </li>
+        <li>
+          <strong>Orders: </strong> Checkout orders for your products and carry out actions related to your customers orders
+        </li>
+        <li>
+          <strong>Add Products: </strong> Add new products to your shop
+        </li>
+        <li>
+          <strong>Account: </strong> View and manage accounts of your clients.
+        </li>
+        <li>
+          <strong>Actionable Analytics: </strong> Analyse data from your users and products to guide in making improving
+          your market strategies
+        </li>
+        <li>
+          <strong>Sign out: </strong> Though we hate to see you leave, if need arises you can always logout to keep your account
+          safe from unathorized access. <br>
+          You can always log back in by clicking the same account button next time.
+        <l/i>
+      <ol>
+    </div>`
+  },
+  {
+    element: ".admin-controls-menu",
+    intro: `<h2>Admin Controls</h2>
+    <hr>
+    <div style="height:200px; overflow-y: scroll;">
+      There are several functionalities available to you as an Admin/Vendor to futher customize you experience on your store.
+      Quick access to this functionalities are available through the controls which appear here.
+      Do note that besides the functionalities which appear here, you can view and manage all packages available to you by clicking on the
+      dashboard control
+    </div>`
+  },
+  {
+    element: ".tour",
+    intro: `<h2>Tour</h2>
+    <hr>
+    <div>
+      That's about everything. Ever need to take a tour again, you can find me here.
+    </div>`
   }
+];
 
-  const allButtons = {
-    nexttime:
-    {
-      text: "Skip Tour",
-      classes: "shepherd-button-secondary",
-      action: () => {
-        Accounts.update({ _id: Meteor.userId() }, { $set: { takenTour: true } });
-        return actionNextTime();
-      }
-    },
-    next:
-    {
-      text: "Next",
-      action: actionNext,
-      classes: "shepherd-button-secondary"
-    },
-    back:
-    {
-      text: "Back",
-      action: actionBack,
-      classes: "shepherd-button-secondary"
-    },
-    finish:
-    {
-      text: "Finish",
-      action: actionHide,
-      classes: "shepherd-button-secondary"
-    }
-  };
-  return allButtons;
+const registeredBuyerTourSteps = [
+  {
+    intro: `<h2>Welcome to <strong>Reaction</strong> Commerce</h2>
+    <hr>
+    <div>
+      <strong>Reaction</strong> Commererce is your one stop ecommerce platform for all types of goods and services.<br>
+      This brief tour would help you get up and running with our platform.
+    </div>`
+  },
+  {
+    intro: `<h2>Products</h2>
+    <hr>
+    <div>
+      All available products would be displayed here. Just browse through.<br>
+      When you find that product you have been searching for, click on it and proceed to adding it to your cart.
+    </div>`
+  },
+  {
+    element: ".search",
+    intro: `<h2>Search</h2>
+    <hr>
+    <div>
+      With countless number of products waiting to be checked out, we help you
+      discover that product you're looking for by offering you an intuitive to use
+      search system with the following capabilities:
+      <ol>
+        <li>Sorting products search results in Ascending or Descending price range.</li>
+        <li>Filter products search results based on tags</li>
+        <li>Filter products search results by brands</li>
+        <li>Sort products search results based on the product sales</li>
+        <li>Sort product search results based on their creation date (newest item)</li>
+      </ol>
+      Also note that search results appear instantly as you type.
+      <br> Found that product ? Click on it's icon, and proceed to adding it to your cart
+    </div>`
+  },
+  {
+    element: ".cart",
+    intro: `<h2>My Cart</h2>
+    <hr>
+    <div>
+      Yeah, So you've found that product or those products and added them to you cart.
+      It's time to check out.<br>
+      Click on the cart icon to check out. <br>
+      Note that we presently offer only 2 means of payment:
+      <ol>
+        <li>
+          <strong>Wallet</strong>
+        </li>
+        <li>
+          <strong>Paystack</strong>
+        </li>
+      </ol>
+    </div>`
+  },
+  {
+    element: ".languages",
+    intro: `<h2>Languages</h2>
+    <hr>
+    <div>
+      Language should never be a barrier. <br> We understand that the earth is a global village, where everyone
+      is connected and we aim to provide our services to everyone around the world regardless of their language.<br>
+      Just click on language icon and select you preferred language from the dropdown.
+    </div>`
+  },
+  {
+    element: "#accounts",
+    intro: `<h2>Account Options</h2>
+    <hr>
+    <div>
+      Here you can access several other account related options by clicking to reveal the dropdown:
+      <ol>
+        <li>
+          <strong>Profile:</strong> view your profile, update your profile and even upgrade your account to a Vendor account
+        </li>
+        <li>
+          <strong>Wallet:</strong> Fund your wallet, transfer funds to other users wallet and more.
+        </li>
+        <li>
+          <strong>Sign-out:</strong> Though we hate to see you leave, if need arises you can always logout to keep your account
+          safe from unathorized access. <br>
+          You can always log back in by clicking the same account button next time.
+        </li>
+      </ol>
+    </div>`
+  },
+  {
+    element: ".tour",
+    intro: `<h2>Tour</h2>
+    <hr>
+    <div>
+      That's about everything. Ever need to take a tour again, you can find me here.
+    </div>`
+  }
+];
+
+const unregisteredBuyerTourSteps = [
+  {
+    intro: `<h2>Welcome to <strong>Reaction</strong> Commerce</h2>
+    <hr>
+    <div>
+      <strong>Reaction</strong> Commerce is your one stop ecommerce platform for all types of products and services.<br>
+      This brief tour would help you quickly onboard into our platform.
+    </div>`
+  },
+  {
+    intro: `<h2>Products</h2>
+    <hr>
+    <div>
+      All available products would be displayed here. Just browse through.<br>
+      When you find the product you have been searching for, click on the product and proceed to adding it to your cart.
+    </div>`
+  },
+  {
+    element: ".search",
+    intro: `<h2>Search</h2>
+    <hr>
+    <div>
+      With countless number of products waiting to be checked out, we help you
+      discover that product you're looking for by offering you an intuitive to use
+      search system with the following capabilities:
+      <ol>
+        <li>Sorting products search results in Ascending or Descending price range.</li>
+        <li>Filter products search results based on tags</li>
+        <li>Filter products search results by brands</li>
+        <li>Sort products search results based on the product sales</li>
+        <li>Sort product search results based on their creation date (newest item)</li>
+      </ol>
+      Search results appear instantly as you type.
+      <br> Found that product ? Click on it's icon, and proceed to adding it to your cart
+    </div>`
+  },
+  {
+    element: ".cart",
+    intro: `<h2>My Cart</h2>
+    <hr>
+    <div>
+      When you have found the product that you have been searching for, you can add the products to your cart.
+      It's time to check out.<br>
+      Click on the cart icon to cash out. <br>
+      Note that we presently offer only 2 means of payment:
+      <ol>
+        <li>
+          <strong>Wallet</strong>
+        </li>
+        <li>
+          <strong>Paystack</strong>
+        </li>
+      </ol>
+    </div>`
+  },
+  {
+    element: ".languages",
+    intro: `<h2>Languages</h2>
+    <hr>
+    <div>
+      Language should never be a barrier. <br> We understand that the earth is a global village, where everyone
+      is connected and we aim to provide our services to everyone around the world regardless of their language.<br>
+      Just click on language icon and select you preferred language from the dropdown.
+    </div>`
+  },
+  {
+    element: "#accounts",
+    intro: `<h2>Account Options</h2>
+    <hr>
+    <div>
+      To buy a product you would need to register and that's straight forward :<br>
+      Either click on this Icon to reveal a dropdown where you can enter needed details to register <strong>OR</strong><br>
+      When you click on your cart to checkout, you would also be presented with the compulsory registration option to proceed
+      with your purchase.
+    </div>`
+  },
+  {
+    element: ".tour",
+    intro: `<h2>Tour</h2>
+    <hr>
+    <div>
+      That's about everything. Ever need to take a tour again, you can find me here.
+    </div>`
+  }
+];
+
+const updateTakenTour = () => {
+  if (!Accounts.findOne(Meteor.userId()).takenTour) {
+    Accounts.update({ _id: Meteor.userId() }, { $set: { takenTour: true } });
+  }
+};
+
+export function playTour() {
+  let tourSteps;
+  if (Reaction.hasPermission("admin")) {
+    tourSteps = adminTourSteps;
+  } else if (!Reaction.hasPermission("anonymous")) {
+    tourSteps = registeredBuyerTourSteps;
+  } else {
+    tourSteps = unregisteredBuyerTourSteps;
+  }
+  tour.setOptions({
+    showBullets: true,
+    showProgress: true,
+    scrollToElement: true,
+    showStepNumbers: false,
+    tooltipPosition: "auto",
+    steps: tourSteps
+  });
+  tour.onexit(updateTakenTour)
+  .oncomplete(updateTakenTour);
+  tour.start();
 }
-const template = {};
-
-Template.tour.onRendered(function () {
-  template.welcomeText = this.$(".welcomeText").html();
-  template.aboutDashboard = this.$(".aboutDashboard").html();
-  template.product = this.$(".product").html();
-  template.profileOrdersAccounts = this.$(".profileOrdersAccounts").html();
-  template.shop = this.$(".shop").html();
-  template.retakeTour = this.$(".retakeTour").html();
-  template.welcomeBuyer = this.$(".welcomeBuyer").html();
-  template.profile = this.$(".profile").html();
-  template.cart = this.$(".cart").html();
-  template.shopBuyer = this.$(".shopBuyer").html();
-
-  vendorTour.addStep("Welcome", {
-    title: "Welcome to Reaction Commerce",
-    text: template.welcomeText,
-    buttons: [getButton("vendorTour").nexttime, getButton("vendorTour").next]
-  });
-
-  vendorTour.addStep("toDashboard", {
-    title: "View Dashboard",
-    text: template.aboutDashboard,
-    attachTo: ".tour-accounts bottom",
-    advanceOn: "#dropown-apps-dashboard click"
-  });
-
-  vendorTour.addStep("newProduct", {
-    title: "Create New Product",
-    text: template.product,
-    attachTo: ".tour-create-content left"
-  });
-
-  vendorTour.addStep("profileOrdersAccounts", {
-    title: "Orders",
-    text: template.profileOrdersAccounts,
-    attachTo: ".tour-accounts bottom"
-  });
-
-  vendorTour.addStep("visitShop", {
-    title: "Shop",
-    text: template.shop,
-    attachTo: ".rui.tag.link bottom"
-  });
-
-  vendorTour.addStep("toViewnextTime", {
-    title: "Information",
-    text: template.retakeTour,
-    attachTo: ".tour-accounts bottom",
-    buttons: [getButton("vendorTour").back, getButton("vendorTour").finish ]
-  });
-
-  buyerTour.addStep("welcomeBuyer", {
-    title: "Welcome",
-    text: template.welcomeBuyer,
-    buttons: [getButton("buyerTour").nexttime, getButton("buyerTour").next]
-  });
-
-  buyerTour.addStep("shopBuyer", {
-    title: "Shop",
-    text: template.shopBuyer,
-    attachTo: ".rui.tag.link bottom"
-  });
-
-  buyerTour.addStep("profile", {
-    title: "Profile",
-    text: template.profile,
-    attachTo: ".tour-accounts bottom"
-  });
-
-  buyerTour.addStep("Cart", {
-    title: "Cart",
-    text: template.cart,
-    attachTo: ".cart-icon bottom"
-  });
-
-  buyerTour.addStep("toViewnextTime", {
-    title: "Information",
-    text: template.retakeTour,
-    buttons: [getButton("buyerTour").finish ]
-  });
-});
