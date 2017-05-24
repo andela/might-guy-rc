@@ -5,6 +5,8 @@ import { Reaction } from "/client/api";
 import Logger from "/client/modules/logger";
 import { ReactionProduct } from "/lib/api";
 import Sortable from "sortablejs";
+import { Meteor } from "meteor/meteor";
+import { Accounts } from "/lib/collections";
 
 /**
  * productGrid helpers
@@ -43,7 +45,6 @@ Template.productGrid.onCreated(function () {
 
 Template.productGrid.onRendered(function () {
   const instance = this;
-
   if (Reaction.hasPermission("createProduct")) {
     const productSort = $(".product-grid-list")[0];
 
