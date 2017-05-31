@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
 import { ProductSearch, Tags, OrderSearch, AccountSearch } from "/lib/collections";
 import { IconButton } from "/imports/plugins/core/ui/client/components";
@@ -40,19 +41,131 @@ Template.searchModal.onCreated(function () {
     }
   });
 
+  function sortProductsOnPrice(products, sortBy) {
+    let sortOrder;
+    if (sortBy === "lowest") {
+      sortOrder = 1;
+    } else if (sortBy === "highest") {
+      sortOrder = -1;
+    }
+
+    return products.sort((firstProduct, nextProduct) => {
+      const result = (firstProduct.price.min < nextProduct.price.min) ? -1 :
+        (firstProduct.price.min > nextProduct.price.min) ? 1 : 0;
+      return result * sortOrder;
+    });
+  }
+
+  function filterByPrice(products, limits) {
+    // for 1000 and above, one item sits in the limits array
+    if (!limits[1]) {
+      return products.filter((product) => {
+        if (product.price) {
+          if (product.price.max >= limits[0]) {
+            return product;
+          }
+        }
+      });
+    }
+    return products.filter((product) => {
+      if (product.price) {
+        if (product.price.min >= limits[0] && product.price.max <= limits[1]) {
+          return product;
+        }
+      }
+    });
+  }
+
+  function  sortProductsByDate(products, sortBy) {
+    const sortedProducts = products.sort((firstProduct, nextProduct) => {
+      return firstProduct.createdAt - nextProduct.createdAt;
+    });
+
+    if (sortBy === "oldest") {
+      return sortedProducts;
+    } else if (sortBy === "newest") {
+      return sortedProducts.reverse();
+    }
+  }
 
   this.autorun(() => {
     const searchCollection = this.state.get("searchCollection") || "products";
     const searchQuery = this.state.get("searchQuery");
     const facets = this.state.get("facets") || [];
     const sub = this.subscribe("SearchResults", searchCollection, searchQuery, facets);
+    const sortBy = Session.get("sortBy");
+    const vendorChoice = Session.get("vendorChoice");
+    const priceFilter = Session.get("priceFilter");
+    const brandChoice = Session.get("brandChoice");
 
     if (sub.ready()) {
       /*
        * Product Search
        */
       if (searchCollection === "products") {
-        const productResults = ProductSearch.find().fetch();
+        let productResults = ProductSearch.find().fetch();
+        // Display sort and filter options if there are search results/search query
+        if (productResults.length > 0 && searchQuery.length > 0) {
+          Session.set("displaySortandFilter", true);
+        } else {
+          Session.set("displaySortandFilter", false);
+        }
+
+        if (sortBy !== "default") {
+          if (sortBy === "lowest" || sortBy === "highest") {
+            productResults = sortProductsOnPrice(productResults, sortBy);
+          } else if (sortBy === "newest" || sortBy === "oldest") {
+            productResults =  sortProductsByDate(productResults, sortBy);
+          }
+        }
+
+        // get all vendors for products in search result
+        let vendors = productResults.map((product) => {
+          return product.vendor;
+        });
+
+        // remove vendor if vendor == null
+        vendors = vendors.filter((vendor) => {
+          return vendor;
+        });
+
+        const productVendors = [...new Set(vendors)];
+        Session.set("vendors", productVendors);
+
+        if (vendorChoice !== "allVendors") {
+          productResults = productResults.filter((product) => {
+            return product.vendor === vendorChoice;
+          });
+        }
+
+        if (priceFilter !== "all") {
+          let range = priceFilter.split("-");
+          range = range.map((limit) => {
+            return Number(limit);
+          });
+          productResults = filterByPrice(productResults, range);
+        }
+
+        // get all brands for products in search result
+        let brands = productResults.map((product) => {
+          if (product.brand) {
+            return product.brand;
+          }
+        });
+
+        // if brand is null, remove it
+        brands = brands.filter((brand) => {
+          return brand;
+        });
+        const productBrands = [...new Set(brands)];
+        Session.set("brands", productBrands);
+
+        if (brandChoice !== "allBrands") {
+          productResults = productResults.filter((product) => {
+            return product.brand === brandChoice;
+          });
+        }
+
         const productResultsCount = productResults.length;
         this.state.set("productSearchResults", productResults);
         this.state.set("productSearchCount", productResultsCount);
@@ -116,6 +229,16 @@ Template.searchModal.onCreated(function () {
  * searchModal helpers
  */
 Template.searchModal.helpers({
+  getProductVendors() {
+    return Session.get("vendors");
+  },
+  displaySortandFilter() {
+    return Session.get("displaySortandFilter");
+  },
+  getProductBrands() {
+    return Session.get("brands");
+  },
+
   IconButtonComponent() {
     const instance = Template.instance();
     const view = instance.view;
@@ -154,6 +277,18 @@ Template.searchModal.events({
   // on type, reload Reaction.SaerchResults
   "keyup input": (event, templateInstance) => {
     event.preventDefault();
+    // initialize vendorChoice to allVendors
+    Session.set("vendorChoice", "allVendors");
+
+    // initialize sortBy to default
+    Session.set("sortBy", "default");
+
+    // initialize priceFilter to all
+    Session.set("priceFilter", "all");
+
+    // initialize brandChoice to allBrands
+    Session.set("brandChoice", "allBrands");
+
     const searchQuery = templateInstance.find("#search-input").value;
     templateInstance.state.set("searchQuery", searchQuery);
     $(".search-modal-header:not(.active-search)").addClass(".active-search");
@@ -173,6 +308,32 @@ Template.searchModal.events({
 
     templateInstance.state.set("facets", facets);
   },
+
+  // get sort query
+  "change #vendor-choice"(event) {
+    event.preventDefault();
+    // Set vendorChoice to user selected choice
+    Session.set("vendorChoice", event.target.value);
+  },
+
+  "change #price-filter"(event) {
+    event.preventDefault();
+    // Set priceFilter to user selected choice
+    Session.set("priceFilter", event.target.value);
+  },
+
+  "change #sort-choice"(event) {
+    event.preventDefault();
+    // Set sortBy to user selected choice
+    Session.set("sortBy", event.target.value);
+  },
+
+  "change #brand-choice"(event) {
+    event.preventDefault();
+    // if user selects a brand, set brandChoice to that choice
+    Session.set("brandChoice", event.target.value);
+  },
+
   "click [data-event-action=productClick]": function () {
     const instance = Template.instance();
     const view = instance.view;

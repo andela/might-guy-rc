@@ -149,6 +149,20 @@ export default function twoColumn() {
             }
           }
         },
+
+        // Brand
+        {
+          component: "ProductField",
+          props: {
+            fieldName: "brand",
+            fieldTitle: "Brand",
+            textFieldProps: {
+              i18nKeyPlaceholder: "productDetailEdit.brand",
+              placeholder: "Brand"
+            }
+          }
+        },
+
         {
           component: "ProductField",
           props: {
