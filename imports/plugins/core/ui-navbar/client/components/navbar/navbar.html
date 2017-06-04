@@ -6,10 +6,9 @@
     <div class="menu">
       {{> tagNav tagNavProps}}
     </div>
-      <div id="moreinfo">{{> React pageButton}}</div>
+      <div id="moreinfo"><a href="/about">{{> React pageButton}}</a></div>
       <div class="tour">{{> React TourButtonComponent}}</div>
     {{#if isSearchEnabled}}
-      <div  class="accounts">{{> accounts tpl="staticPagesNav"}}</div>
       <div class="search">{{> React IconButtonComponent}}</div>
     {{/if}}
     {{#if hasPermission 'account/profile'}}

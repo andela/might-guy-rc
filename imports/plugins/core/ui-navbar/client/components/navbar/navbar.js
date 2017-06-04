@@ -94,7 +94,7 @@ Template.CoreNavigationBar.helpers({
     return {
       component: FlatButton,
       kind: "flat",
-      label: "More Info"
+      label: "Shopping on reaction"
     };
   },
   notificationButtonComponent() {
