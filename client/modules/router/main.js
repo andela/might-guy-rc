@@ -183,7 +183,7 @@ Router.initPackageRoutes = () => {
         ReactionLayout(Session.get("INDEX_OPTIONS") || {});
       }
     });
-    
+
 
     shop.route("/about", {
       name: "about",

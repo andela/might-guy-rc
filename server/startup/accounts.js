@@ -69,7 +69,7 @@ export default function () {
    * Accounts.onCreateUser event
    * adding either a guest or anonymous role to the user on create
    * adds Accounts record for reaction user profiles
-   * we clone the user into accounts, as the user collection is
+   * we clone the user into accounts, as the user collection isction
    * only to be used for authentication.
    * - defaultVisitorRole
    * - defaultRoles
@@ -80,8 +80,8 @@ export default function () {
   Accounts.onCreateUser((options, user) => {
     const shop = Reaction.getCurrentShop();
     const shopId = shop._id;
-    const defaultVisitorRole =  ["anonymous", "guest", "product", "tag", "index", "cart/checkout", "cart/completed"];
-    const defaultRoles =  ["guest", "account/profile", "product", "tag", "index", "cart/checkout", "cart/completed"];
+    const defaultVisitorRole =  ["anonymous", "guest", "product", "tag", "index", "cart/checkout", "cart/completed", "about"];
+    const defaultRoles =  ["guest", "account/profile", "product", "tag", "index", "cart/checkout", "cart/completed", "about"];
     const roles = {};
     const additionals = {
       profile: Object.assign({}, options && options.profile)
@@ -105,7 +105,6 @@ export default function () {
           }
         }
       }
-
       // if we don't have user.services we're an anonymous user
       if (!user.services) {
         roles[shopId] = shop.defaultVisitorRole || defaultVisitorRole;
