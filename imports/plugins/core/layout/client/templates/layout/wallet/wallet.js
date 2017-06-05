@@ -89,7 +89,7 @@ function handlePayment(result) {
 // Paystack payment
 const payWithPaystack = (email, amount) => {
   const paystackConfig = getPaystackSettings();
-  console.log('Paystack Config', paystackConfig);
+  console.log("Paystack Config", paystackConfig);
   const handler = PaystackPop.setup({
     key: paystackConfig.public,
     email: email,
@@ -119,6 +119,10 @@ Template.wallet.events({
     const amount = parseInt(document.getElementById("transferAmount").value, 10) / exchangeRate;
     if (amount > Template.instance().state.get("details").balance) {
       Alerts.toast("Insufficient Balance", "error");
+      return false;
+    }
+    if (amount < 0) {
+      Alerts.toast("Amount cannot be negative", "error");
       return false;
     }
     const recipient = document.getElementById("recipient").value;
