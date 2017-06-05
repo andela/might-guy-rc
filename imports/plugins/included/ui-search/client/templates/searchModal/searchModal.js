@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
-import { ProductSearch, Tags, OrderSearch, AccountSearch } from "/lib/collections";
+import { ProductSearch, Tags, OrderSearch, AccountSearch, Orders } from "/lib/collections";
 import { IconButton } from "/imports/plugins/core/ui/client/components";
 
 /*
@@ -14,6 +14,25 @@ function tagToggle(arr, val) {
   return arr;
 }
 
+function extractAnalyticsItems(allOrders) {
+  const analytics = {};
+  allOrders.forEach((order) => {
+    if (order.workflow.status !== "canceled") {
+      order.items.forEach((item) => {
+        if (analytics[item.title]) {
+          analytics[item.title].quantitySold += item.quantity;
+          analytics[item.title].totalSales += item.variants.price * item.quantity;
+        } else {
+          analytics[item.title] = {
+            quantitySold: item.quantity,
+            totalSales: item.variants.price * item.quantity
+          };
+        }
+      });
+    }
+  });
+  return { analytics };
+}
 /*
  * searchModal onCreated
  */
@@ -25,6 +44,7 @@ Template.searchModal.onCreated(function () {
     canLoadMoreProducts: false,
     searchQuery: "",
     productSearchResults: [],
+    analytics: {},
     tagSearchResults: []
   });
 
@@ -95,8 +115,10 @@ Template.searchModal.onCreated(function () {
     const sub = this.subscribe("SearchResults", searchCollection, searchQuery, facets);
     const sortBy = Session.get("sortBy");
     const vendorChoice = Session.get("vendorChoice");
+    const productChoice = Session.get("productChoice");
     const priceFilter = Session.get("priceFilter");
     const brandChoice = Session.get("brandChoice");
+    const orderSub = this.subscribe("Orders");
 
     if (sub.ready()) {
       /*
@@ -137,7 +159,43 @@ Template.searchModal.onCreated(function () {
             return product.vendor === vendorChoice;
           });
         }
+        // some changes
+        const bestSelling = () => {
+          const instance = Template.instance();
+          const products = [];
+          const analytics = instance.state.get("analytics");
+          Object.keys(analytics).forEach((key) => {
+            products.push({
+              product: key,
+              quantitySold: analytics[key].quantitySold
+            });
+          });
+          return _.orderBy(
+            products,
+            product => product.quantitySold,
+            "desc"
+          );
+        };
 
+        let products = bestSelling();
+        products = products.map((product) => {
+          return product.product;
+        });
+
+        // remove product if product == null
+        // do we need this?
+        products = products.filter((product) => {
+          return product;
+        });
+
+        const productNames = [...new Set(products)];
+        Session.set("products", productNames);
+
+        if (productChoice !== "allProducts") {
+          productResults = productResults.filter((product) => {
+            return product.title === productChoice;
+          });
+        }
         if (priceFilter !== "all") {
           let range = priceFilter.split("-");
           range = range.map((limit) => {
@@ -221,6 +279,14 @@ Template.searchModal.onCreated(function () {
         this.state.set("tagSearchResults", "");
       }
     }
+
+    if (orderSub.ready()) {
+      const allOrders = Orders.find().fetch();
+      if (allOrders) {
+        const analyticsItems = extractAnalyticsItems(allOrders);
+        this.state.set("analytics", analyticsItems.analytics);
+      }
+    }
   });
 });
 
@@ -237,6 +303,9 @@ Template.searchModal.helpers({
   },
   getProductBrands() {
     return Session.get("brands");
+  },
+  getProductNames() {
+    return Session.get("products");
   },
 
   IconButtonComponent() {
@@ -267,6 +336,22 @@ Template.searchModal.helpers({
   showSearchResults() {
     return false;
   }
+  // bestSelling() {
+  //   const instance = Template.instance();
+  //   const products = [];
+  //   const analytics = instance.state.get("analytics");
+  //   Object.keys(analytics).forEach((key) => {
+  //     products.push({
+  //       product: key,
+  //       quantitySold: analytics[key].quantitySold
+  //     });
+  //   });
+  //   return _.orderBy(
+  //     products,
+  //     product => product.quantitySold,
+  //     "desc"
+  //   );
+  // }
 });
 
 
@@ -279,6 +364,9 @@ Template.searchModal.events({
     event.preventDefault();
     // initialize vendorChoice to allVendors
     Session.set("vendorChoice", "allVendors");
+
+    // initialize productChoice to allProducts
+    Session.set("productChoice", "allProducts");
 
     // initialize sortBy to default
     Session.set("sortBy", "default");
@@ -314,6 +402,12 @@ Template.searchModal.events({
     event.preventDefault();
     // Set vendorChoice to user selected choice
     Session.set("vendorChoice", event.target.value);
+  },
+
+  "change #best-choice"(event) {
+    event.preventDefault();
+    // Set productChoice to user selected choice
+    Session.set("productChoice", event.target.value);
   },
 
   "change #price-filter"(event) {
