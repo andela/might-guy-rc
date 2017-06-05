@@ -1,19 +1,8 @@
 import { Reaction, Logger } from "/client/api";
-import { StaticPages, Tags } from "/lib/collections";
+import { Tags } from "/lib/collections";
 import { Session } from "meteor/session";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
-
-
-Template.staticPagesNav.onCreated(function () {
-  Meteor.subscribe("viewPages");
-});
-
-Template.staticPagesNav.helpers({
-  staticPages() {
-    return StaticPages.find({ shopId: Reaction.shopId }).fetch();
-  }
-});
 
 
 Template.loginDropdown.events({

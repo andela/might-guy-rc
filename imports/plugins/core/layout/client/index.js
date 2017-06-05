@@ -22,6 +22,3 @@ import "./templates/layout/about/about.js";
 
 import "./templates/theme/theme.html";
 import "./templates/theme/theme.js";
-
-import "./templates/layout/staticPages/page.html";
-import "./templates/layout/staticPages/page.js";
