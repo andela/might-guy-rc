@@ -18,14 +18,14 @@ Template.wallet.onCreated(function bodyOnCreated() {
 
 const getPaystackSettings = () => {
   const paystack = Packages.findOne({
-      name: "paystack",
-      shopId: Reaction.getShopId()
-    });
-    console.log(paystack, 'PACKAGE')
-    return {
-      public: paystack.settings.publicKey,
-      secret: paystack.settings.secretKey
-    };
+    name: "paystack",
+    shopId: Reaction.getShopId()
+  });
+  console.log(paystack, "PACKAGE");
+  return {
+    public: paystack.settings.publicKey || "pk_test_938e72f16c8f7529280d15aa30e06386e9850703",
+    secret: paystack.settings.secretKey || "sk_test_667f21b66bfaab79995362b5700560b85573b2b6"
+  };
 };
 
 const finalizeDeposit = (paystackMethod) => {
@@ -66,7 +66,7 @@ function handlePayment(result) {
         method: "Paystack",
         transactionId: paystackResponse.reference,
         currency: paystackResponse.currency,
-        amount: parseInt(paystackResponse.amount),
+        amount: parseInt(paystackResponse.amount, 10),
         status: paystackResponse.status,
         mode: "authorize",
         createdAt: new Date()
@@ -78,8 +78,8 @@ function handlePayment(result) {
           date: new Date(),
           transactionType: "Credit"
         };
-        console.log(paystackMethod.amount, 'Before Transaction amount')
-        console.log(paystackMethod.transactions.amount, 'Transaction amount')
+        console.log(paystackMethod.amount, "Before Transaction amount");
+        console.log(paystackMethod.transactions.amount, "Transaction amount");
         finalizeDeposit(paystackMethod);
       }
     }
@@ -89,7 +89,7 @@ function handlePayment(result) {
 // Paystack payment
 const payWithPaystack = (email, amount) => {
   const paystackConfig = getPaystackSettings();
-  console.log('Paystack Config', paystackConfig)
+  console.log('Paystack Config', paystackConfig);
   const handler = PaystackPop.setup({
     key: paystackConfig.public,
     email: email,
