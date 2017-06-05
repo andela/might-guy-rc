@@ -24,7 +24,7 @@
     "autoprefixer": "^6.7.7",
     "autosize": "^3.0.20",
     "babel-runtime": "^6.23.0",
-    "bcrypt": "https://registry.npmjs.org/bcrypt/-/bcrypt-1.0.2.tgz",
+    "bcrypt": "^1.0.2",
     "bootstrap": "^3.3.7",
     "braintree": "^2.0.2",
     "bunyan": "^1.8.9",
@@ -35,7 +35,6 @@
     "css-annotation": "^0.6.2",
     "deep-diff": "^0.3.4",
     "dnd-core": "^2.3.0",
-    "dotenv": "^4.0.0",
     "faker": "^4.1.0",
     "fibers": "^1.0.15",
     "flatten-obj": "^3.1.0",
@@ -47,11 +46,9 @@
     "i18next-localstorage-cache": "^1.1.0",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "immutable": "^3.8.1",
-    "intro.js": "^2.5.0",
     "jquery": "^3.2.1",
     "jquery-i18next": "^1.2.0",
     "later": "^1.2.0",
-    "lib": "^2.2.6",
     "lodash": "^4.17.4",
     "lodash.pick": "^4.4.0",
     "meteor-node-stubs": "^0.2.6",
@@ -96,7 +93,6 @@
     "sweetalert2": "^6.4.4",
     "swiper": "^3.4.2",
     "tether-drop": "^1.4.2",
-    "tether-shepherd": "^1.8.1",
     "tether-tooltip": "^1.2.0",
     "transliteration": "1.5.2",
     "twilio": "^2.11.1",
@@ -133,6 +129,6 @@
     "del-report": "rm -rf ~/allure-report && rm -rf allure-results",
     "test-local": "wdio tests/runner/local.conf.js",
     "test-browserstack": "wdio tests/runner/browserstack.conf.js; kill $(ps aux | grep '[b]rowserstack' | awk '{print $2}')",
-    "postinstall": "meteor npm install react-facebook react-star-rating-component"
+    "postinstall": "meteor npm install react-facebook react-star-rating-component intro.js"
   }
 }
