@@ -38,10 +38,22 @@
               <tr>
                 <td>{{capitalize transaction.transactionType}}</td>
                 <td>{{formatPrice transaction.amount}}</td>
-                <td>{{transaction.from}}</td>
-                <td>{{transaction.to}}</td>
-                <td>{{transaction.orderId}}</td>
-                <td>{{transaction.date}}</td>
+                {{#if transaction.from }}
+                  <td>{{transaction.from}}</td>
+                {{else}}
+                  <td>Self</td>
+                {{/if}}
+                {{#if transaction.to }}
+                  <td>{{transaction.to}}</td>
+                {{else}}
+                  <td>Self</td>
+                {{/if}}
+                {{#if transaction.orderId }}
+                  <td>{{transaction.orderId}}</td>
+                {{else}}
+                  <td>NA</td>
+                {{/if}}
+                <td>{{formatDate transaction.date}}</td>
               </tr>
               {{/each}}
             {{else}}

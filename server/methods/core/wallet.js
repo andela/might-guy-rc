@@ -15,14 +15,14 @@ Meteor.methods({
     check(userId, String);
     check(transactions, Schemas.Transaction);
     let balanceOptions;
-    const {amount, transactionType} = transactions;
-    console.log({amount, transactionType}, 'AMOUNT HERE')
+    const { amount, transactionType } = transactions;
+    console.log({ amount, transactionType }, "AMOUNT HERE");
     if (transactionType === "Credit") {
-      balanceOptions = {balance: amount};
+      balanceOptions = { balance: amount };
     }
     if (transactionType === "Debit") {
       if (transactions.to) {
-        const recipient = Accounts.findOne({"emails.0.address": transactions.to});
+        const recipient = Accounts.findOne({ "emails.0.address": transactions.to });
         const sender = Accounts.findOne(userId);
         if (!recipient) {
           return 2;
@@ -35,16 +35,14 @@ Meteor.methods({
           transactionType: "Credit"
         });
       }
-      balanceOptions = {balance: -amount};
+      balanceOptions = { balance: -amount };
     }
 
     try {
-      Wallets.update({userId}, {$push: {transactions: transactions}, $inc: balanceOptions}, {upsert: true});
+      Wallets.update({ userId }, { $push: { transactions: transactions }, $inc: balanceOptions }, { upsert: true });
       return 1;
     } catch (error) {
       return 0;
     }
   }
-
-  
 });

@@ -152,5 +152,9 @@ Template.wallet.helpers({
       return transactions;
     }
     return false;
+  },
+
+  formatDate(date) {
+    return moment(date).format("dddd, MMMM Do YYYY, h:mm:ssa");
   }
 });
