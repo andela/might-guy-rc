@@ -47,8 +47,6 @@ Template.searchModal.onCreated(function () {
     analytics: {},
     tagSearchResults: []
   });
-
-
   // Allow modal to be closed by clicking ESC
   // Must be done in Template.searchModal.onCreated and not in Template.searchModal.events
   $(document).on("keyup", (event) => {
@@ -74,6 +72,66 @@ Template.searchModal.onCreated(function () {
         (firstProduct.price.min > nextProduct.price.min) ? 1 : 0;
       return result * sortOrder;
     });
+  }
+
+  function sortProductsByBestSeller(productResults) {
+    const bestSelling = () => {
+      const instance = Template.instance();
+      const products = [];
+      const analytics = instance.state.get("analytics");
+      Object.keys(analytics).forEach((key) => {
+        products.push({
+          product: key,
+          quantitySold: analytics[key].quantitySold
+        });
+      });
+      return _.orderBy(
+        products,
+        product => product.quantitySold,
+        "desc"
+      );
+    };
+    bestSellers = bestSelling();
+    bestSellers = bestSellers.map((product) => {
+      return product.product;
+    });
+
+    bestSellers = bestSellers.filter((product) => {
+      return product;
+    });
+
+    productList = productResults.map((product) => {
+      return product.title;
+    });
+
+    productList = productList.filter((product) => {
+      return product;
+    });
+
+    const common = $.grep(bestSellers, function (element) {
+      return $.inArray(element, productList) !== -1;
+    });
+
+    // there is a better way to do this
+    const finalResult = [];
+    common.forEach((title) => {
+      productResults.forEach((product) => {
+        if (title === product.title) {
+          finalResult.push(product);
+        }
+      });
+    });
+
+    common.forEach((title) => {
+      productResults.forEach((product) => {
+        if (product.title !== title) {
+          if (!finalResult.includes(product)) {
+            finalResult.push(product);
+          }
+        }
+      });
+    });
+    return finalResult;
   }
 
   function filterByPrice(products, limits) {
@@ -138,6 +196,8 @@ Template.searchModal.onCreated(function () {
             productResults = sortProductsOnPrice(productResults, sortBy);
           } else if (sortBy === "newest" || sortBy === "oldest") {
             productResults =  sortProductsByDate(productResults, sortBy);
+          } else if (sortBy === "best-seller") {
+            productResults = sortProductsByBestSeller(productResults);
           }
         }
 
@@ -336,22 +396,6 @@ Template.searchModal.helpers({
   showSearchResults() {
     return false;
   }
-  // bestSelling() {
-  //   const instance = Template.instance();
-  //   const products = [];
-  //   const analytics = instance.state.get("analytics");
-  //   Object.keys(analytics).forEach((key) => {
-  //     products.push({
-  //       product: key,
-  //       quantitySold: analytics[key].quantitySold
-  //     });
-  //   });
-  //   return _.orderBy(
-  //     products,
-  //     product => product.quantitySold,
-  //     "desc"
-  //   );
-  // }
 });
 
 

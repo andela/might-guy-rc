@@ -34,16 +34,6 @@
           </select>
         </span>
 
-        <span class="filter-sort" id="best-choice-span">
-          Filter by Best-Seller:
-          <select id="best-choice" class="filter-sort-select">
-            <option value="allProducts"> All Products </option>
-          {{#each product in getProductNames}}
-            <option value={{product}}>{{product}}</option>
-          {{/each}}
-          </select>
-        </span>
-
         <span class="filter-sort" id="sort-choice-span">
           Sort by:
           <select id="sort-choice" class="filter-sort-select">
@@ -52,6 +42,7 @@
             <option value="highest">Price: Highest to Lowest</option>
             <option value="newest">Date: Newest to Oldest</option>
             <option value="oldest">Date: Oldest to Newest</option>
+            <option value="best-seller">Best Seller</option>
           </select>
         </span>
     {{/if}}

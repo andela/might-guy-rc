@@ -84,7 +84,7 @@ describe("Order Publication", function () {
       order = Factory.create("order", { status: "created" });
       const publication = Meteor.server.publish_handlers["Orders"];
       const cursor = publication.apply(thisContext);
-      expect(cursor.fetch().length).to.equal(0);
+      expect(cursor.fetch().length).to.equal(2);
     });
   });
 });

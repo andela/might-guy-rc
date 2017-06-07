@@ -79,21 +79,13 @@ const OrderHelper =  {
  */
 
 Meteor.publish("Orders", function () {
-  if (this.userId === null) {
-    return this.ready();
-  }
   const shopId = Reaction.getShopId();
   if (!shopId) {
     return this.ready();
   }
-  if (Roles.userIsInRole(this.userId, ["admin", "owner"], shopId)) {
-    return Orders.find({
-      shopId: shopId
-    });
-  }
+
   return Orders.find({
-    shopId: shopId,
-    userId: this.userId
+    shopId: shopId
   });
 });
 
