@@ -1,6 +1,50 @@
 <template name="searchModal">
   <div class="rui search-modal js-search-modal">
     <div class="rui search-modal-close">{{> React IconButtonComponent}}</div>
+      {{#if displaySortandFilter}}
+      <span class="filter-sort" id="price-filter-span">
+          Filter by price:
+          <select id="price-filter" class="filter-sort-select">
+            <option value="all" selected>All</option>
+            <option value="0-50">below $50</option>
+            <option value="50-100">$50 - $100</option>
+            <option value="100-500">$100 - $500</option>
+            <option value="500-1000">$500 - $1000</option>
+            <option value="1000">$1000 - above</option>
+          </select>
+        </span>
+
+        <span class="filter-sort" id="vendor-choice-span">
+          Filter by vendor:
+          <select id="vendor-choice" class="filter-sort-select">
+            <option value="allVendors"> All Vendors </option>
+          {{#each vendor in getProductVendors}}
+            <option value={{vendor}}>{{vendor}}</option>
+          {{/each}}
+          </select>
+        </span>
+        
+        <span class="filter-sort" id="brand-choice-span">
+          Filter by brand:
+          <select id="brand-choice" class="filter-sort-select">
+            <option value="allBrands"> All Brands </option>
+          {{#each brand in getProductBrands}}
+            <option value={{brand}}>{{brand}}</option>
+          {{/each}}
+          </select>
+        </span>
+
+        <span class="filter-sort" id="sort-choice-span">
+          Sort by:
+          <select id="sort-choice" class="filter-sort-select">
+            <option value="default">Default</option>
+            <option value="lowest">Price: Lowest to Highest</option>
+            <option value="highest">Price: Highest to Lowest</option>
+            <option value="newest">Date: Newest to Oldest</option>
+            <option value="oldest">Date: Oldest to Newest</option>
+          </select>
+        </span>
+    {{/if}}
     <div class="rui search-modal-header">
       {{> searchInput }}
       {{> searchTypeToggle }}

@@ -110,7 +110,8 @@
           "includeDescription": "Include description",
           "includePageTitle": "Include page title",
           "includeDetails": "Include details",
-          "includeVendor": "Include vendor"
+          "includeVendor": "Include vendor",
+          "includeBrand": "Include brand"
         },
         "orderSearchSettings": {
           "panelTitle": "Order Search Settings"

@@ -62,6 +62,11 @@ export const SearchPackageConfig = new SimpleSchema([
       defaultValue: 6,
       max: 10,
       min: 1
+    },
+    "settings.products.includes.brand": {
+      type: Boolean,
+      label: "Include brand",
+      defaultValue: true
     }
   }
 ]);

@@ -26,7 +26,8 @@ const fieldNames = [
   "facebookMsg",
   "twitterMsg",
   "pinterestMsg",
-  "googleplusMsg"
+  "googleplusMsg",
+  "brand"
 ];
 
 const fieldGroups = {
@@ -40,7 +41,8 @@ const fieldGroups = {
   pinterestMsg: { group: "social" },
   googleplusMsg: { group: "social" },
   hashtags: { group: "hashtags" },
-  metafields: { group: "metafields" }
+  metafields: { group: "metafields" },
+  brand: { group: "productDetails" }
 };
 
 class ProductAdmin extends Component {
@@ -318,6 +320,18 @@ class ProductAdmin extends Component {
               ref="countryOfOriginInput"
               value={this.product.originCountry}
               options={this.props.countries}
+            />
+            <TextField
+              i18nKeyLabel="productDetailEdit.brand"
+              i18nKeyPlaceholder="productDetailEdit.brand"
+              label="Brand"
+              name="brand"
+              onBlur={this.handleFieldBlur}
+              onChange={this.handleFieldChange}
+              onReturnKeyDown={this.handleFieldBlur}
+              placeholder="Vendor"
+              ref="brandInput"
+              value={this.product.brand}
             />
           </CardBody>
         </Card>
