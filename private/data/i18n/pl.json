@@ -151,7 +151,7 @@
           "viewAll": "Zobacz wszystkie"
         },
         "messages": {
-          "orderCancelled": "Twoje zamówienie zostało anulowane.",
+          "orderCanceled": "Twoje zamówienie zostało anulowane.",
           "newOrder": "Twoje zamówienie jest przetwarzane.",
           "forAdmin": "Masz nowy porządek.",
           "orderDelivered": "Twoje zamówienie zostało dostarczone.",

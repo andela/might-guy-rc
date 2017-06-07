@@ -151,7 +151,7 @@
           "viewAll": "Zobrazit vše"
         },
         "messages": {
-          "orderCancelled": "Vaše objednávka byla zrušena.",
+          "orderCanceled": "Vaše objednávka byla zrušena.",
           "newOrder": "Vaše objednávka se zpracovává.",
           "forAdmin": "Máte novou objednávku.",
           "orderDelivered": "Vaše objednávka byla doručena.",

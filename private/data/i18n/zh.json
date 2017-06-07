@@ -151,7 +151,7 @@
           "viewAll": "查看所有"
         },
         "messages": {
-          "orderCancelled": "您的订单被取消。",
+          "orderCanceled": "您的订单被取消。",
           "newOrder": "正在处理您的订单。",
           "forAdmin": "你有一个新的秩序。",
           "orderDelivered": "您的订单已交付。",

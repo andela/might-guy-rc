@@ -86,7 +86,8 @@ Template.orders.onCreated(function () {
   this.orderLimits.setDefault({
     new: 10,
     processing: 10,
-    completed: 10
+    completed: 10,
+    canceled: 10
   });
   this.state.set("count", 0);
 
@@ -94,6 +95,7 @@ Template.orders.onCreated(function () {
   Reaction.setUserPreferences(PACKAGE_NAME, ORDER_LIST_FILTERS_PREFERENCE_NAME, filterName);
 
   this.autorun(() => {
+    this.subscribe("Orders");
     const filter = Reaction.getUserPreferences(PACKAGE_NAME, ORDER_LIST_FILTERS_PREFERENCE_NAME, DEFAULT_FILTER_NAME);
     const limit = this.orderLimits.get(filter);
     const query = OrderHelper.makeQuery(filter);
@@ -154,8 +156,9 @@ Template.orders.helpers({
       instance.state.set("count", Counts.get("processingOrder-count"));
     } else if (filter === "completed") {
       instance.state.set("count", Counts.get("completedOrder-count"));
+    } else if (filter === "canceled") {
+      instance.state.set("count", Counts.get("canceledOrder-count"));
     }
-
     return instance.state.get("count") > instance.orderLimits.get(filter);
   },
 
@@ -207,6 +210,15 @@ Template.ordersListItem.helpers({
 
   orderIsNew(order) {
     return order.workflow.status === "new";
+  },
+  iscanceled(order) {
+    if (order.workflow.status === "canceled") {
+      return true;
+    }
+    return false;
+  },
+  canceledReason(order) {
+    return order.comments[0].body;
   }
 });
 
@@ -267,6 +279,55 @@ Template.ordersListItem.events({
   }
 });
 
+Template.orderListFilters.onCreated(function () {
+  this.state = new ReactiveDict();
+
+  this.autorun(() => {
+    const queryFilter = Reaction.Router.getQueryParam("filter");
+    this.subscribe("Orders");
+
+    const filters = orderFilters.map((filter) => {
+      filter.i18nKeyLabel = `order.filter.${filter.name}`;
+      filter.count = Orders.find(OrderHelper.makeQuery(filter.name)).count();
+
+      if (queryFilter) {
+        filter.active = queryFilter === filter.name;
+      }
+
+      return filter;
+    });
+
+    this.state.set("filters", filters);
+  });
+});
+
+Template.orderListFilters.events({
+  "click [role=tab]": (event) => {
+    event.preventDefault();
+    const filter = event.currentTarget.getAttribute("data-filter");
+    const isActionViewOpen = Reaction.isActionViewOpen();
+    if (isActionViewOpen === true) {
+      Reaction.hideActionView();
+    }
+
+    Reaction.setUserPreferences(PACKAGE_NAME, ORDER_LIST_FILTERS_PREFERENCE_NAME, filter);
+    Reaction.setUserPreferences(PACKAGE_NAME, ORDER_LIST_SELECTED_ORDER_PREFERENCE_NAME, null);
+  }
+});
+
+Template.orderListFilters.helpers({
+  filters() {
+    return Template.instance().state.get("filters");
+  },
+
+  activeClassname(item) {
+    if (item.active === true) {
+      return "active";
+    }
+    return "";
+  }
+});
+
 /**
  * orderStatusDetail
  *
@@ -274,7 +335,31 @@ Template.ordersListItem.events({
  *
  * @returns orderStatusDetails
  */
+Template.orderStatusDetail.onCreated(function () {
+  this.state = new ReactiveDict();
+  this.state.setDefault({
+    orders: []
+  });
 
+  // Watch for updates to the subscription and query params
+  // fetch available orders
+  this.autorun(() => {
+    this.subscribe("Orders");
+    const filter = Reaction.Router.getQueryParam("filter");
+    const query = OrderHelper.makeQuery(filter);
+    const orders = Orders.find(query).fetch();
+
+    this.state.set("orders", orders);
+  });
+});
+
+/**
+ * orderStatusDetail
+ *
+ * order state tracking
+ *
+ * @returns orderStatusDetails
+ */
 Template.orderStatusDetail.helpers({
   // helper to format currency
   formatAmount(value) {
@@ -297,7 +382,11 @@ Template.orderStatusDetail.helpers({
     if (this.shipping[0].tracking) {
       return this.shipping[0].tracking;
     }
-    return "";
+    return i18next.t("orderShipping.noTracking");
+  },
+
+  orderStatus() {
+    return this.workflow.status;
   },
 
   shipmentStatus() {

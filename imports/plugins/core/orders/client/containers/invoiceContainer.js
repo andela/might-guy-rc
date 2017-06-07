@@ -14,7 +14,7 @@ class InvoiceContainer extends Component {
     isFetching: PropTypes.bool,
     orderId: PropTypes.string,
     paymentCaptured: PropTypes.bool,
-    refunds: PropTypes.array
+    refunds: PropTypes.any
   }
 
   constructor(props) {

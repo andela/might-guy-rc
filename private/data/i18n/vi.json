@@ -151,7 +151,7 @@
           "viewAll": "Xem tất cả"
         },
         "messages": {
-          "orderCancelled": "đặt hàng của bạn đã bị hủy bỏ.",
+          "orderCanceled": "đặt hàng của bạn đã bị hủy bỏ.",
           "newOrder": "Đơn hàng của bạn đang được xử lý.",
           "forAdmin": "Bạn có một trật tự mới.",
           "orderDelivered": "Chỗ đặt của bạn đã được gửi.",

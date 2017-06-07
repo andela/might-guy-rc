@@ -80,6 +80,13 @@ Reaction.registerPackage({
     workflow: "coreOrderWorkflow",
     audience: ["dashboard/orders"]
   }, {
+    template: "coreOrderCanceled",
+    label: "Order Canceled",
+    status: "canceled",
+    workflow: "coreOrderWorkflow",
+    audience: ["dashboard/orders"]
+  },
+  {
     template: "coreOrderCompleted",
     label: "Order Completed",
     status: "completed",

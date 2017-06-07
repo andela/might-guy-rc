@@ -151,7 +151,7 @@
           "viewAll": "Ver todos os"
         },
         "messages": {
-          "orderCancelled": "Seu pedido foi cancelado.",
+          "orderCanceled": "Seu pedido foi cancelado.",
           "newOrder": "Seu pedido está sendo processado.",
           "forAdmin": "Você tem uma nova ordem.",
           "orderDelivered": "Seu pedido foi entregue.",

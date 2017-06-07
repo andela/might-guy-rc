@@ -151,7 +151,7 @@
           "viewAll": "Alle anzeigen"
         },
         "messages": {
-          "orderCancelled": "Ihre Bestellung wurde storniert.",
+          "orderCanceled": "Ihre Bestellung wurde storniert.",
           "newOrder": "Ihre Bestellung wird verarbeitet.",
           "forAdmin": "Sie haben einen neuen Auftrag.",
           "orderDelivered": "Ihre Bestellung wurde geliefert.",

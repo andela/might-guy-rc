@@ -151,7 +151,7 @@
           "viewAll": "Vezi toate"
         },
         "messages": {
-          "orderCancelled": "Comanda dvs a fost anulat.",
+          "orderCanceled": "Comanda dvs a fost anulat.",
           "newOrder": "Comanda dumneavoastră este în curs de procesare.",
           "forAdmin": "Ai o noua ordine.",
           "orderDelivered": "Comanda dumneavoastra a fost emis.",

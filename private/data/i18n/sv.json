@@ -151,7 +151,7 @@
           "viewAll": "Se alla"
         },
         "messages": {
-          "orderCancelled": "Din beställning har annullerats.",
+          "orderCanceled": "Din beställning har annullerats.",
           "newOrder": "Din beställning behandlas.",
           "forAdmin": "Du har en ny beställning.",
           "orderDelivered": "Din beställning har levererats.",

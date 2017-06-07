@@ -151,7 +151,7 @@
           "viewAll": "Összes megtekintése"
         },
         "messages": {
-          "orderCancelled": "A rendelést törölték.",
+          "orderCanceled": "A rendelést törölték.",
           "newOrder": "A rendelés feldolgozása folyamatban van.",
           "forAdmin": "Van egy új rendet.",
           "orderDelivered": "Rendelését szállítani.",

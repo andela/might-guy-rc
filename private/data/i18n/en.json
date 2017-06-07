@@ -152,7 +152,7 @@
           "viewAll": "View All"
         },
         "messages": {
-          "orderCancelled": "Your order was canceled.",
+          "orderCanceled": "Your order was canceled.",
           "newOrder": "Your order is being processed.",
           "forAdmin": "You have a new order.",
           "orderDelivered": "Your order has been delivered.",

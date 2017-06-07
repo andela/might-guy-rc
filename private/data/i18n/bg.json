@@ -151,7 +151,7 @@
           "viewAll": "Виж всички"
         },
         "messages": {
-          "orderCancelled": "Вашата цел е отменен.",
+          "orderCanceled": "Вашата цел е отменен.",
           "newOrder": "Вашата поръчка се обработва.",
           "forAdmin": "Имате нов ред.",
           "orderDelivered": "Вашата цел е бил доставен.",

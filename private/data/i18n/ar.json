@@ -151,7 +151,7 @@
           "viewAll": "عرض الكل"
         },
         "messages": {
-          "orderCancelled": "تم إلغاء طلبك.",
+          "orderCanceled": "تم إلغاء طلبك.",
           "newOrder": "طلبك قيد التنفيذ.",
           "forAdmin": "لديك النظام الجديد.",
           "orderDelivered": "وقد تم تسليم طلبك.",

@@ -151,7 +151,7 @@
           "viewAll": "Pogledaj sve"
         },
         "messages": {
-          "orderCancelled": "Vaša je narudžba otkazana.",
+          "orderCanceled": "Vaša je narudžba otkazana.",
           "newOrder": "Vaša narudžba obrađuje.",
           "forAdmin": "Imate novi poredak.",
           "orderDelivered": "Vaša narudžba dostavljena.",

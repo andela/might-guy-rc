@@ -36,7 +36,7 @@ export default function () {
         $nin: ["sendEmail"]
       },
       status: {
-        $in: ["cancelled", "completed", "failed"]
+        $in: ["canceled", "completed", "failed"]
       },
       updated: {
         $lt: olderThan

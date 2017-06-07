@@ -62,6 +62,22 @@
         {{/each}}
       </div>
     </div>
+    {{#if hasAdminAccess}}
+     <div></div>
+     {{else}}
+       {{#if orderStatus}}
+       <div></div>
+       {{else}}
 
+       <label>Reason for canceling order:</label>
+       <textarea name="comment" id="cancelOrderComment" class="form-control input-comment">
+       </textarea>
+       <button name="cancel" class="btn btn-danger btn-block"
+         type="submit" data-event-action="cancelOrder"
+         data-i18n="order.cancelOrder">
+        Cancel Order
+      </button>
+       {{/if}}
+     {{/if}}
   </div>
 </template>

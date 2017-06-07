@@ -151,7 +151,7 @@
           "viewAll": "Poglej vse"
         },
         "messages": {
-          "orderCancelled": "Vaše naročilo je bilo preklicano.",
+          "orderCanceled": "Vaše naročilo je bilo preklicano.",
           "newOrder": "Vaše naročilo je v obdelavi.",
           "forAdmin": "Imate novo naročilo.",
           "orderDelivered": "Vaše naročilo je bilo dostavljeno.",

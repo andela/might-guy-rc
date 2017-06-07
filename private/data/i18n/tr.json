@@ -151,7 +151,7 @@
           "viewAll": "Hepsini Gör"
         },
         "messages": {
-          "orderCancelled": "Siparişiniz iptal edildi.",
+          "orderCanceled": "Siparişiniz iptal edildi.",
           "newOrder": "Siparişiniz işleniyor.",
           "forAdmin": "Yeni bir düzen var.",
           "orderDelivered": "Siparişiniz teslim edildi.",

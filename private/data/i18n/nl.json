@@ -151,7 +151,7 @@
           "viewAll": "Bekijk alles"
         },
         "messages": {
-          "orderCancelled": "Uw bestelling is geannuleerd.",
+          "orderCanceled": "Uw bestelling is geannuleerd.",
           "newOrder": "Je bestelling wordt verwerkt.",
           "forAdmin": "U heeft een nieuwe bestelling.",
           "orderDelivered": "Uw bestelling is afgeleverd.",

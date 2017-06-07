@@ -136,7 +136,7 @@
           "viewAll": "להציג את כל"
         },
         "messages": {
-          "orderCancelled": "ההזמנה שלך בוטלה.",
+          "orderCanceled": "ההזמנה שלך בוטלה.",
           "newOrder": "שההזמנה מעובדת.",
           "forAdmin": "יש לך הזמנה חדשה.",
           "orderDelivered": "ההזמנה נשלחה.",
