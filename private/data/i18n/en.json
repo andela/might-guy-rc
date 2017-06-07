@@ -23,7 +23,8 @@
           "routingTitle": "Routing",
           "routingDescription": "Routing utilities",
           "filtrationLabel": "Filtration",
-          "filtrationDescription": "Products filtration for Reaction"
+          "filtrationDescription": "Products filtration for Reaction",
+          "walletPaymentLabel": "wallet"
         },
         "groups": {
           "appearance": "Appearance",

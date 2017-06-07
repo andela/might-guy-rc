@@ -20,6 +20,8 @@ export default function () {
       route: "/about",
       name: "about",
       template: "aboutRC",
-      workflow: "coreWorkflow"    }]
+      workflow: "coreWorkflow",
+      priority: 4
+    }]
   });
 }

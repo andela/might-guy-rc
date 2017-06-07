@@ -183,8 +183,12 @@ Router.initPackageRoutes = () => {
         ReactionLayout(Session.get("INDEX_OPTIONS") || {});
       }
     });
-    
-
+    shop.route("/wallet", {
+      name: "wallet",
+      action() {
+        ReactionLayout({ template: "wallet" });
+      }
+    });
     shop.route("/about", {
       name: "about",
       action() {

@@ -94,12 +94,19 @@ Template.CoreNavigationBar.helpers({
     return {
       component: FlatButton,
       kind: "flat",
-      label: "More Info"
+      label: "Shopping on reaction"
     };
   },
   notificationButtonComponent() {
     return {
       component: NotificationContainer
+    };
+  },
+  staticPagesMenu() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      label: "More Pages"
     };
   },
   onMenuButtonClick() {

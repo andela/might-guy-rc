@@ -154,7 +154,7 @@ Template.searchModal.onCreated(function () {
     });
   }
 
-  function  sortProductsByDate(products, sortBy) {
+  function sortProductsByDate(products, sortBy) {
     const sortedProducts = products.sort((firstProduct, nextProduct) => {
       return firstProduct.createdAt - nextProduct.createdAt;
     });

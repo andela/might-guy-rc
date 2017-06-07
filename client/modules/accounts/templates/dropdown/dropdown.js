@@ -4,6 +4,7 @@ import { Session } from "meteor/session";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
 
+
 Template.loginDropdown.events({
 
   /**
@@ -31,6 +32,16 @@ Template.loginDropdown.events({
         Logger.warn("Failed to logout.", error);
       }
     });
+  },
+
+  /**
+   * Wallet form
+   * @param  {Event} event - jQuery Event
+   * @return {void}
+   */
+  "click #wallet": (event) => {
+    event.preventDefault();
+    FlowRouter.go("/wallet");
   },
 
   /**
