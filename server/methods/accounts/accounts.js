@@ -6,7 +6,6 @@ import { Accounts, Cart, Media, Shops, Packages } from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { Logger, Reaction } from "/server/api";
 
-
 /**
  * @summary Returns the name of the geocoder method to use
  * @returns {string} Name of the Geocoder method to use
